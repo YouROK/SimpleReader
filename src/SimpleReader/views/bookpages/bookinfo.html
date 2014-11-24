@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Читать онлайн книгу {{.Book.GetDescription.Author.FirstName}} {{.Book.GetDescription.Author.MiddleName}} {{.Book.GetDescription.Author.LastName}}, {{.Book.GetDescription.BookTitle}}">
+	<meta name="keywords" content="{{.Book.GetDescription.Keywords}}" />
+	<title>SimpleReader - {{.Book.GetDescription.BookTitle}}</title>
+
+</head>
+
+<body>
+	<script src="/js/main.js"></script>
+	<link rel="stylesheet" href="/css/main.css" />
+	{{template "metrica" .}}
+
+<div data-role="page">
+	<div data-role="header" data-id="header" data-tap-toggle="false">
+		<a rel="external" href="/" data-icon="home" style="border-radius:.3125em;" class="ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-left"></a>
+		<h1>{{.Book.GetDescription.BookTitle}}</h1>
+		{{template "menu/mainMenu" .Session}}
+	</div>
+	<div data-role="content">
+		<div class="canvas">
+			<div style="padding-right:2em;">
+				<img class="infobookcover" src="/getcover/{{.Book.GetHash}}"/>
+				<h2><p>{{.Book.GetDescription.BookTitle}}</p></h2>
+				<h3><p>{{.Book.GetDescription.Author.FirstName}} {{.Book.GetDescription.Author.MiddleName}} {{.Book.GetDescription.Author.LastName}}</p></h3>
+				<h4><p>{{.Book.GetDescription.Sequence.Name}} {{.Book.GetDescription.Sequence.Number}}</p></h4>
+				<small>{{.Book.GetGenresStr}}</small>
+				{{range .Book.GetAnnotation}}
+					{{.Text}}
+				{{end}}
+				<hr align="center" width="90%" size="1"/>
+				<div align=left>
+				{{range .Book.GetAnnotation}}
+					{{.Note}}
+				{{end}}
+				</div>
+				<a onclick="GetChapters()" data-role="button" >Главы</a>
+				<div id="chapters" style='display:none;'>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<button onclick="GoReadNew()" data-role="button">Читать с начала</button>
+			</div>
+			<div class="ui-block-b">
+			    <button onclick="GoReadLast()" data-role="button" data-iconpos="right">Читать</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function set_body_height() {
+		var ww = $(window).width();
+		if (ww<960) {
+			$('.canvas').width(ww);
+		}
+	}
+
+	$(document).ready(function() {
+		set_body_height();
+		$(window).bind('resize', function() { set_body_height(); });
+	});
+
+	function GoReadLast() {
+		window.location = "/book/{{.Book.GetHash}}/read";
+	}
+
+	function GoReadNew() {
+		window.location = "/book/{{.Book.GetHash}}/read/0";
+	}
+
+	var loadchapters = false;
+	var isShowChapters = false;
+	function GetChapters(){
+		if (!loadchapters) {
+			var url = "/getchapters/{{.Book.GetHash}}";
+			var request = $.ajax({
+		        type: 'POST',
+		        url: url,
+		        dataType: 'json',
+		        timeout: 30000,
+		        async: false
+		    });
+		    request.done(function (data){
+				var html = "<ul data-role='listview' data-inset='true'>";
+				for ( var i=0; i<data.length; i++) {
+					html += "<li><a rel='external' href='/book/{{.Book.GetHash}}/read/"+data[i].Page+"'>"+data[i].Name+"</a></li>";
+				}
+				html += "</ul>";
+		        $("#chapters").html(html);
+				$("#chapters").trigger('create');
+				loadchapters = true;
+		    });
+		    request.fail(function (data){
+				if (data) {
+		            if (!data.Message)
+		                DialogShow("Произошла ошибка, повторите попытку позже");
+		            else
+		                DialogShow("Ошибка: "+data.Message);
+		        }
+		    });
+		}
+		if (!isShowChapters) {
+			$("#chapters").show();
+			isShowChapters = true;
+		} else {
+			$("#chapters").hide();
+			isShowChapters = false;
+		}
+	}
+</script>
+</body>
+</html>

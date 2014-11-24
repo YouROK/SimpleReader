@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SimpleReader - Загрузка книг</title>
+
+</head>
+
+<body>
+	<link rel="stylesheet" href="/css/main.css" />
+	<script src="/js/main.js"></script>
+
+	{{template "metrica" .}}
+
+	<div data-role="page">
+		<div data-role="header" id="header" data-id="header" data-tap-toggle="false">
+			<a rel="external" href="/" data-icon="home" style="border-radius:.3125em;" class="ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-left"></a>
+			<h1>Загрузка книг</h1>
+			{{template "menu/mainMenu" .}}
+		</div>
+		<div data-role="content" id="content">
+			<div class="canvas">
+				<form enctype="multipart/form-data" action="/upload" method="post" id="formFile">
+					<label>Выберите файл или архив с книгой в формате fb2</label>
+					<input data-clear-btn="true" id="btnFile" accept="application/x-fictionbook+xml,application/zip" name="fb2files" type="file" onchange="changeBtnFile()" multiple />
+					<input id="btnUpload" type="button" value="Загрузить" />
+					<div style="height: 1em; background-color: silver; width: 100%; border-radius: 1em; padding: 0.1em;">
+						<div id="progress_bar" style="height: 100%; background-color: #63A1CE; width: 0; border-radius: 0.9em;"></div>
+					</div>
+				</form>
+				<div id="filescount" ></div>
+			</div>
+		</div>
+	</div>
+<script>
+	$(window).ready(changeBtnFile());
+	function changeBtnFile() {
+		$('#filescount' ).empty();
+		var files = $('#btnFile')[0].files;
+		var html = '<table cellspacing="5px" cellpadding="5px" width="100%">';
+		for (var i = 0; i < files.length; i++)
+			html += '<tr><td>'+files[i].name+'</td><td>'+bytesToSize(files[i].size)+'</td></tr>'
+		html += '</table>';
+		$('#filescount' ).html(html);
+	}
+
+	function bytesToSize ( bytes) {
+		var sizes =[ 'Bytes', 'KB', 'MB', 'GB', 'TB' ] ;
+		var posttxt = 0 ;
+		if ( bytes == 0 ) return 'n/a' ;
+		if ( bytes < 1024 )
+			return Number ( bytes ) + " " + sizes[ posttxt ] ;
+		while ( bytes >= 1024 ){
+			posttxt ++ ;
+			bytes = bytes / 1024 ;
+		}
+		return bytes.toPrecision (4) + " " + sizes[ posttxt ] ;
+	}
+
+
+	 $('#btnUpload').click(function(){
+            var formData = new FormData(document.getElementById("formFile"));
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                xhr: function() {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){myXhr.upload.addEventListener('progress',progressHandlingFunction, false);}
+                    return myXhr;
+                },
+                beforeSend: beforeSendHandler,
+                complete: completeHandler,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            } );
+        });
+        function completeHandler(e, status) {
+            $('#progress_bar').css('width', "0%");
+            if(status == "error"){
+				if (!e.responseText)
+					DialogShow("Произошла ошибка при загрузке");
+				else
+					DialogShow(e.responseText);
+			}
+			if(status == "success" && e.responseJSON){
+				$('#filescount' ).empty();
+				var files = e.responseJSON;
+				var html = '<table cellspacing="5px" cellpadding="5px" width="100%">';
+				for (var i = 0; i < files.length; i++)
+					html += '<tr><td>'+files[i]+'</td><td>Ошибка загрузки</td></tr>'
+				html += '</table>';
+				$('#filescount' ).html(html);
+			} else if(status == "success"){
+				$('#filescount' ).empty();
+			}
+        }
+
+        function beforeSendHandler(e){
+            $('#progress_bar').css('width', "0%");
+        }
+
+        function progressHandlingFunction(e){
+            if(e.lengthComputable){
+                $('#progress_bar').css('width', Math.round(100 * e.loaded / e.total) +"%");
+                $('#percent').text(Math.round(100 * e.loaded / e.total) +" %");
+            }
+        }
+</script>
+</body>
+</html>

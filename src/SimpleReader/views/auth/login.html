@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex,nofollow">
+	<title>SimpleReader - Войти</title>
+
+</head>
+<body>
+	<link rel="stylesheet" href="/css/main.css" />
+	<script src="/js/crypt/jsbn.js"></script>
+	<script src="/js/crypt/prng4.js"></script>
+	<script src="/js/crypt/rng.js"></script>
+	<script src="/js/crypt/rsa.js"></script>
+	<script src="/js/crypt/base64.js"></script>
+	<script src="/js/crypt/sha1.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/authorization.js"></script>
+
+	{{template "metrica" .}}
+
+<div data-role="page" id="LoginPage">
+	<div data-role="header" data-id="header" data-tap-toggle="false">
+		<a rel="external" href="/" data-icon="home" style="border-radius:.3125em;" class="ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-left"></a>
+		<h1>Войти</h1>
+		{{template "menu/mainMenu" .Session}}
+	</div>
+	<div data-role="content" id="content">
+		<div class="canvas">
+			<input name="UserName" id="UserName" placeholder="Имя пользователя" value="" data-mini="true" type="text"/><br/>
+			<input name="Password" autocomplete="off" id="Password" placeholder="Пароль" value="" data-mini="true" type="password"/><br/>
+			<div style="display:none;" id="captcha" align=center>
+				<img id="captchaimg"/>
+				<input name="CaptchaInp" autocomplete="off" id="CaptchaInp" placeholder="Captcha" value="" data-mini="true" type="text"/>
+			</div>
+			<br/>
+			<button id="btnLogin" onclick="Auth()" type="submit" type="button" value="Войти" data-icon="check">Войти</button>
+			<a class="ui-btn ui-icon-check ui-btn-icon-left" rel="external" href="/registration" data-icon="check" data-transition="fade">Регистрация</a>
+		</div>
+	</div>
+</div>
+<script>
+	function Auth(){
+		Login($("#UserName").val(), $("#Password").val(), $("#CaptchaInp").val(),{{.BackTo}})
+	}
+	$('#content').keydown(function (e){
+		if(e.keyCode == 13)
+			Auth();
+	});
+</script>
+</body>
+</html>

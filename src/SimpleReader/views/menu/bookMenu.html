@@ -1,0 +1,52 @@
+<button onclick="ToggleMenu()" data-role="button" data-icon="bars" style="border-radius:.3125em;" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-right"></button>
+<div id="menu" style='display:none;'>
+	<hr align="center" width="100%" size="1"/>
+	<div class="menu" align="center">
+		{{template "menu/genericMenu" .}}
+		<a onclick="GetChapters()" data-role="button" data-icon="plus">Главы</a>
+	</div>
+	<div id="chapters" style='display:none;'>
+	</div>
+</div>
+
+<script>
+var loadchapters = false;
+var isShowChapters = false;
+function GetChapters(){
+	if (!loadchapters) {
+		var url = "/getchapters/"+bookId;
+		var request = $.ajax({
+	        type: 'POST',
+	        url: url,
+	        dataType: 'json',
+	        timeout: 30000,
+	        async: false
+	    });
+	    request.done(function (data){
+			var html = "<hr align='center' width='100%' size='1'/><ul data-role='listview'>";
+			for ( var i=0; i<data.length; i++) {
+				html += "<li><a rel='external' href='/book/"+bookId+"/read/"+data[i].Page+"'>"+data[i].Name+"</a></li>";
+			}
+			html += "</ul>";
+	        $("#chapters").html(html);
+			$("#chapters").trigger('create');
+			loadchapters = true;
+	    });
+	    request.fail(function (data){
+			if (data) {
+	            if (!data.Message)
+	                DialogShow("Произошла ошибка, повторите попытку позже");
+	            else
+	                DialogShow("Ошибка: "+data.Message);
+	        }
+	    });
+	}
+	if (!isShowChapters) {
+		$("#chapters").show();
+		isShowChapters = true;
+	} else {
+		$("#chapters").hide();
+		isShowChapters = false;
+	}
+}
+</script>
