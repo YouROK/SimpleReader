@@ -5,7 +5,7 @@ Based on martini server:
 [Martini](https://github.com/go-martini)
 
 Test site:
-[SimpleReader](http://www.borscht-yourok.rhcloud.com)
+[SimpleReader](http://borscht-yourok.rhcloud.com/)
 
 
 ## Simple Start
