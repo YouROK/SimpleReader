@@ -1,5 +1,4 @@
 # SimpleReader
-============
 Simple reader for fb2 online
 
 Based on martini server:
@@ -10,7 +9,6 @@ Test site:
 
 
 ## Simple Start
-============
 In linux terminal:
 
 Clone source code
@@ -35,5 +33,4 @@ go install ./src/main/
 ./bin/main
 ~~~
 
-Server run in port 9000
-For test open in browser [http://localhost:9000/](http://localhost:9000/)
+Server run in port 9000, for test open in browser [http://localhost:9000/](http://localhost:9000/)
