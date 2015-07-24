@@ -3,18 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
-
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Читать онлайн книгу {{.Book.GetDescription.Author.FirstName}} {{.Book.GetDescription.Author.MiddleName}} {{.Book.GetDescription.Author.LastName}}, {{.Book.GetDescription.BookTitle}}">
 	<meta name="keywords" content="{{.Book.GetDescription.Keywords}}" />
 	<title>SimpleReader - {{.Book.GetDescription.BookTitle}}</title>
-
 </head>
 
 <body>
@@ -62,6 +54,11 @@
 		</div>
 	</div>
 </div>
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
 <script>
 	function set_body_height() {
 		var ww = $(window).width();

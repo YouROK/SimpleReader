@@ -25,7 +25,7 @@ func main() {
 
 	host := ""
 	port := "9000"
-	chdir := os.Getenv("OPENSHIFT_DATA_DIR")
+	chdir := "/home/yourok/Dropbox/Projects/BooksReader/SimpleReader" //os.Getenv("OPENSHIFT_DATA_DIR")
 
 	if len(os.Args) >= 2 {
 		host = os.Args[1]
