@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+  "runtime"
 )
 
 func catchExitSignals() {
@@ -22,7 +23,7 @@ func catchExitSignals() {
 }
 
 func main() {
-
+      runtime.GOMAXPROCS(4)
 	host := ""
 	port := "9000"
 	chdir := "/home/yourok/Dropbox/Projects/BooksReader/SimpleReader" //os.Getenv("OPENSHIFT_DATA_DIR")
@@ -46,4 +47,5 @@ func main() {
 	catchExitSignals()
 	global.Stoping = true
 	storage.GetStorage().Exit()
+       log.Println("Exit")
 }
