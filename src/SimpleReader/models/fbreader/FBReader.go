@@ -1,9 +1,8 @@
 package fbreader
 
 import (
-	"code.google.com/p/go-charset/charset"
-	_ "code.google.com/p/go-charset/data"
 	"encoding/xml"
+	"golang.org/x/net/html/charset"
 	"html/template"
 	"log"
 	"os"
@@ -101,7 +100,7 @@ func (fbp *FBParser) ParseFB() error {
 	fbp.xmlBook = &XMLBook{}
 	fbp.xmlNotes = &XMLNotes{}
 	decoder := xml.NewDecoder(xmlFile)
-	decoder.CharsetReader = charset.NewReader
+	decoder.CharsetReader = charset.NewReaderLabel
 	err = decoder.Decode(fbp.xmlBook)
 	if err == nil {
 		err = fbp.parseNotes()
