@@ -37,10 +37,12 @@ func (bs *BookStorage) GetPath() string {
 
 func (bs *BookStorage) GetBooks() []string {
 	dirs, err := ioutil.ReadDir(bs.path)
+	var ret []string
 	if err == nil {
-		ret := make([]string, len(dirs))
-		for i, d := range dirs {
-			ret[i] = d.Name()
+		for _, d := range dirs {
+			if d.Name() != ".gitignore" {
+				ret = append(ret, d.Name())
+			}
 		}
 		return ret
 	}
