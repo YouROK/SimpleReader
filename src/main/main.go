@@ -8,8 +8,8 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
-  "runtime"
 )
 
 func catchExitSignals() {
@@ -23,10 +23,10 @@ func catchExitSignals() {
 }
 
 func main() {
-      runtime.GOMAXPROCS(4)
+	runtime.GOMAXPROCS(4)
 	host := ""
 	port := "9000"
-	chdir := "/home/yourok/Dropbox/Projects/BooksReader/SimpleReader" //os.Getenv("OPENSHIFT_DATA_DIR")
+	chdir := "/home/yourok/sr" //os.Getenv("OPENSHIFT_DATA_DIR")
 
 	if len(os.Args) >= 2 {
 		host = os.Args[1]
@@ -47,5 +47,5 @@ func main() {
 	catchExitSignals()
 	global.Stoping = true
 	storage.GetStorage().Exit()
-       log.Println("Exit")
+	log.Println("Exit")
 }
