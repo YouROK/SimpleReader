@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/cloud.google.com/go" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/codegangsta/inject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/go-martini/martini" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/martini-contrib/gzip" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/martini-contrib/render" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattn/go-sqlite3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/oxtoacart/bpool" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/net" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/text" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/google.golang.org/genproto" vcs="Git" />
+  </component>
+</project>
