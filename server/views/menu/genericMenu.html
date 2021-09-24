@@ -1,5 +1,0 @@
-{{if eq .Login 1}}<a rel="external" href="/logout" data-role="button" data-icon="profile">Выйти</a>{{else}}<a rel="external" href="/login" data-role="button" data-icon="profile">Войти</a>{{end}}
-<a rel="external" href="/styles" data-role="button" data-icon="bars">Настройки</a>
-<a rel="external" href="/upload" data-role="button" data-icon="plus">Загрузить книгу</a>
-<a rel="external" href="/search" data-role="button" data-icon="search">Поиск</a>
-{{if eq .Login 1}}<a rel="external" href="/{{.User.Name}}/books" data-role="button" data-icon="books">Книги</a>{{end}}

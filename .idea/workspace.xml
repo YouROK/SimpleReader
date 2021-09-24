@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="771c987e-39cc-46d5-8be6-831a8ad3949e" name="Changes" comment="New Init">
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/.idea/SimpleReaderNew.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/api/login.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/api/register.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/models/bookinfo.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/models/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/server.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/session/session.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/settings/books.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/settings/settings.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SimpleReaderBack/web/settings/users.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/.metadata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/api/api.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/api/session.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/home/home_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/home/not_found_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/login/activate_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/login/login_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/main.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/routes.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/lib/widgets/blurry_dialog.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/flutter/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/main.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/my_application.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/linux/my_application.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/pubspec.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/pubspec.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/test/widget_test.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/icons/Icon-192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/icons/Icon-512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/icons/Icon-maskable-192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/icons/Icon-maskable-512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/simple_reader/web/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SimpleReader.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/storage/books/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/storage/users/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/page.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/book_36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/book_stack-32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/bookcover.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/checked_checkbox-32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/da.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/library-icon36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/loading.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/profile-icon36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/unchecked_checkbox-32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/authorization.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/bookPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/base64.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/jsbn.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/prng4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/rng.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/rsa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/crypt/sha1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/jstorage.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/pageSwipe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/SimpleReader.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/authorization.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/authors.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/book.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/booksort.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/hello.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/library.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/mainPage.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/profile.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/upload.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/captcha/captcha.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/crypt/crypt.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/fbreader/FBReader.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/fbreader/Fb2Format.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/fbreader/Node.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/fbreader/Utils.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/fbreader/XmlFb2Parser.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/global/global.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/sessions/session.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/storage/BookStorage.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/storage/SessionStorage.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/storage/StorageManager.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/storage/UserStorage.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/users/User.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/Controller.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server/Server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/utils/utils.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/auth/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/auth/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/bookpages/bookinfo.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/bookpages/bookpage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/library/authorPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/library/authorsPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/library/searchPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/library/userBooks.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/mainpage/mainpage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/menu/bookMenu.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/menu/genericMenu.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/menu/mainMenu.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/metrica.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/profile/stylePage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/views/upload/uploadPage.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yaRNqkGtrlvlWzJeYjBJXQe1h6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="go.formatter.settings.were.checked" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/SimpleReaderBack" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager">
+    <configuration name="go build SimpleReader/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="SimpleReader" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="SimpleReader/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build SimpleReader/cmd" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="refactor and update" />
+    <MESSAGE value="New Init" />
+    <option name="LAST_COMMIT_MESSAGE" value="New Init" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+</project>
