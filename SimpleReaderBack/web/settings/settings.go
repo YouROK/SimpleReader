@@ -14,7 +14,7 @@ var (
 
 func Open() {
 	var err error
-	db, err = bolt.Open(filepath.Join(Path, "db"), 0666, nil)
+	db, err = bolt.Open(filepath.Join(Path, "sr.db"), 0666, nil)
 	if err != nil {
 		log.Panic(err)
 	}
