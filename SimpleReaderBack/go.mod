@@ -2,6 +2,11 @@ module SimpleReader
 
 go 1.17
 
+replace (
+	//github.com/vdovindima/fb2 v1.0.0 => github.com/YouROK/fb2 v1.0.0
+	github.com/vdovindima/fb2 v1.0.0 => /home/yourok/MEGAWork/go/fb2
+)
+
 require (
 	github.com/gofiber/fiber/v2 v2.19.0
 	github.com/vdovindima/fb2 v1.0.0

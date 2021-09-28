@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"SimpleReader/web/session"
-	"SimpleReader/web/settings"
+	"SimpleReader/web/storage"
 )
 
 func Login(c *fiber.Ctx) error {
@@ -29,7 +29,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	ses := session.Get(c)
-	userDb := settings.GetUser(payload.Login)
+	userDb := storage.GetUser(payload.Login)
 	if userDb == nil {
 		time.Sleep(time.Second * 5)
 		c.Status(http.StatusBadRequest)

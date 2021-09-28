@@ -5,7 +5,7 @@ import (
 )
 
 type BookInfo struct {
-	BookHash     string
-	LastReadPage int
-	LastRead     time.Time
+	BookHash        string
+	LastReadSection int
+	LastRead        time.Time
 }

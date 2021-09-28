@@ -3,23 +3,18 @@ package api
 import (
 	"archive/zip"
 	"bytes"
-	"encoding/base64"
-	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"os"
 	"path"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/vdovindima/fb2"
 
 	"SimpleReader/web/models"
 	"SimpleReader/web/session"
-	"SimpleReader/web/settings"
-	"SimpleReader/web/utils"
+	"SimpleReader/web/storage"
 )
 
 func Upload(c *fiber.Ctx) error {
@@ -85,60 +80,7 @@ func saveBook(file *multipart.FileHeader) (string, error) {
 		return "", errors.New("File is empty or error open file")
 	}
 
-	return saveFb2File(buf)
-}
-
-func saveFb2File(b []byte) (string, error) {
-	hash := utils.Md5HashBytes(b)
-	bookpath := path.Join(settings.Path, "books", hash)
-	bookfile := path.Join(bookpath, "book.fb2")
-	os.MkdirAll(bookpath, 0755)
-	fb2File, err := os.Create(bookfile)
-	if err != nil {
-		os.RemoveAll(bookpath)
-		return "", err
-	}
-	fb2File.Write(b)
-	fb2File.Close()
-
-	book, err := fb2.New(b).Unmarshal()
-	if err != nil {
-		os.RemoveAll(bookpath)
-		return "", errors.New("Error parse book")
-	}
-
-	// save description
-	desc, err := json.Marshal(book.Description)
-	if err != nil {
-		os.RemoveAll(bookpath)
-		return "", errors.New("Error parse book description")
-	}
-
-	df, err := os.Create(path.Join(bookpath, "info"))
-	if err != nil {
-		os.RemoveAll(bookpath)
-		return "", err
-	}
-
-	_, err = df.Write(desc)
-
-	if err != nil {
-		os.RemoveAll(bookpath)
-		return "", err
-	}
-
-	// save images
-	for _, i := range book.Binary {
-		imgF, err := os.Create(path.Join(bookpath, i.ID))
-		if err == nil {
-			buf, err := base64.StdEncoding.DecodeString(i.Value)
-			if err == nil {
-				imgF.Write(buf)
-			}
-			imgF.Close()
-		}
-	}
-	return hash, nil
+	return storage.AddBook(buf)
 }
 
 func extractZip(breader *bytes.Reader) ([]byte, error) {
