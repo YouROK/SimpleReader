@@ -10,8 +10,8 @@ import (
 	"SimpleReader/web/settings"
 )
 
-func GetUser(login string) *models.User {
-	usrpath := path.Join(settings.Path, "users", strings.ToLower(login), "info.json")
+func GetUser(mail string) *models.User {
+	usrpath := path.Join(settings.Path, "users", strings.ToLower(mail), "info.json")
 	buf, err := ioutil.ReadFile(usrpath)
 	if err == nil {
 		var usr *models.User
@@ -38,7 +38,7 @@ func GetUsers() []*models.User {
 }
 
 func SetUser(usr *models.User) {
-	usrpath := path.Join(settings.Path, "users", strings.ToLower(usr.Login), "info.json")
+	usrpath := path.Join(settings.Path, "users", strings.ToLower(usr.Email), "info.json")
 	buf, err := json.Marshal(usr)
 	if err == nil {
 		ioutil.WriteFile(usrpath, buf, 0664)

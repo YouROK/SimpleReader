@@ -12,7 +12,7 @@ import (
 
 func Login(c *fiber.Ctx) error {
 	payload := struct {
-		Login    string `json:"login"`
+		EMail    string `json:"email"`
 		PassHash string `json:"pass"`
 	}{}
 
@@ -22,33 +22,33 @@ func Login(c *fiber.Ctx) error {
 		return c.SendString(err.Error())
 	}
 
-	if payload.Login == "" || payload.PassHash == "" {
+	if payload.EMail == "" || payload.PassHash == "" {
 		time.Sleep(time.Second * 3)
 		c.Status(http.StatusBadRequest)
 		return c.SendString("Заполните все поля")
 	}
 
 	ses := session.Get(c)
-	userDb := storage.GetUser(payload.Login)
-	if userDb == nil {
+	user := storage.GetUser(payload.EMail)
+	if user == nil {
 		time.Sleep(time.Second * 5)
 		c.Status(http.StatusBadRequest)
 		return c.SendString("Неправильное имя пользователя")
 	}
 
-	if userDb.PassHash != payload.PassHash {
+	if user.PassHash != payload.PassHash {
 		time.Sleep(time.Second * 5)
 		c.Status(http.StatusBadRequest)
 		return c.SendString("Неправильный пароль")
 	}
 
-	if userDb.Role < 0 {
+	if user.Role < 0 {
 		time.Sleep(time.Second * 5)
 		c.Status(http.StatusBadRequest)
 		return c.SendString("Вы забанены")
 	}
 
-	ses.Set("User", userDb)
+	ses.Set("User", user)
 	c.Status(200)
 	return nil
 }

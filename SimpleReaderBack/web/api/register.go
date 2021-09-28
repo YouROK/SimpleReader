@@ -7,6 +7,7 @@ import (
 
 	"SimpleReader/web/models"
 	"SimpleReader/web/settings"
+	"SimpleReader/web/storage"
 )
 
 func Register(c *fiber.Ctx) error {
@@ -42,5 +43,15 @@ func RegisterSetData(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(regLink)
+	usrDB := storage.GetUser(regLink.EMail)
+	if usrDB == nil {
+		usrDB = usr
+	} else {
+		usrDB.Login = usr.Login
+		usrDB.PassHash = usr.PassHash
+	}
+	storage.SetUser(usrDB)
+
+	c.Status(http.StatusOK)
+	return nil
 }
