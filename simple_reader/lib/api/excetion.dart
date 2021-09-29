@@ -1,0 +1,1 @@
+class NotLoginException implements Exception {}

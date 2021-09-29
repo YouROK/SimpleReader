@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_reader/api/api.dart';
+import 'package:simple_reader/routes.dart';
 import 'package:simple_reader/widgets/blurry_dialog.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<LoginPage> createState() => LoginState();
 }
 
 class LoginState extends State<LoginPage> {
-  late TextEditingController _cntLogin;
+  late TextEditingController _cntEMail;
   late TextEditingController _cntPass;
 
   @override
   void initState() {
     super.initState();
-    _cntLogin = TextEditingController();
+    _cntEMail = TextEditingController();
     _cntPass = TextEditingController();
   }
 
   @override
   void dispose() {
-    _cntLogin.dispose();
+    _cntEMail.dispose();
     _cntPass.dispose();
     super.dispose();
   }
@@ -43,9 +46,9 @@ class LoginState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Login"),
+                  Text("Почта"),
                   TextField(
-                    controller: _cntLogin,
+                    controller: _cntEMail,
                     onSubmitted: (value) {},
                   ),
                   SizedBox(height: 20),
@@ -63,12 +66,17 @@ class LoginState extends State<LoginPage> {
                     child: ElevatedButton(
                         onPressed: () async {
                           try {
-                            await Api.login(_cntLogin.value.text, _cntPass.value.text);
+                            final resp = await Api.login(_cntEMail.value.text, _cntPass.value.text);
+                            if (resp.statusCode == 200) {
+                              Routes.router.navigateTo(context, "/");
+                            } else {
+                              _showDialog(context, "Ошибка", resp.body);
+                            }
                           } catch (error) {
                             _showDialog(context, "Ошибка", error.toString());
                           }
                         },
-                        child: Text("Login")),
+                        child: Text("Войти")),
                   )
                 ],
               ),

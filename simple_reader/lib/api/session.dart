@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:simple_reader/api/excetion.dart';
 
 class Session {
   Map<String, String> headers = {};
@@ -10,16 +11,17 @@ class Session {
     return Uri.parse("http://$host/$link");
   }
 
-  Future<String> get(String link) async {
+  Future<http.Response> get(String link) async {
     http.Response response = await http.get(getLink(link), headers: headers);
     updateCookie(response);
-    return response.body;
+    if (response.statusCode == 401) throw NotLoginException();
+    return response;
   }
 
-  Future<String> post(String link, dynamic data) async {
+  Future<http.Response> post(String link, dynamic data) async {
     http.Response response = await http.post(getLink(link), body: data, headers: headers);
     updateCookie(response);
-    return response.body;
+    return response;
   }
 
   void updateCookie(http.Response response) {
