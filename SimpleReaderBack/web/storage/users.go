@@ -3,6 +3,7 @@ package storage
 import (
 	"encoding/json"
 	"io/ioutil"
+	"os"
 	"path"
 	"strings"
 
@@ -15,7 +16,7 @@ func GetUser(mail string) *models.User {
 	buf, err := ioutil.ReadFile(usrpath)
 	if err == nil {
 		var usr *models.User
-		json.Unmarshal(buf, usr)
+		json.Unmarshal(buf, &usr)
 		return usr
 	}
 	return nil
@@ -38,6 +39,8 @@ func GetUsers() []*models.User {
 }
 
 func SetUser(usr *models.User) {
+	userdir := path.Join(settings.Path, "users", strings.ToLower(usr.Email))
+	os.MkdirAll(userdir, 0777)
 	usrpath := path.Join(settings.Path, "users", strings.ToLower(usr.Email), "info.json")
 	buf, err := json.Marshal(usr)
 	if err == nil {

@@ -1,7 +1,10 @@
 package api
 
 import (
+	"encoding/json"
+	"errors"
 	"net/http"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 
@@ -10,7 +13,7 @@ import (
 	"SimpleReader/web/storage"
 )
 
-func Register(c *fiber.Ctx) error {
+func RegisterGetEmail(c *fiber.Ctx) error {
 	hash := c.Params("hash", "")
 	if hash == "" {
 		c.Status(http.StatusNotFound)
@@ -18,10 +21,11 @@ func Register(c *fiber.Ctx) error {
 	}
 	regLink := settings.GetLink(hash)
 	if regLink == nil {
+		time.Sleep(5 * time.Second) // wait for bruteforce
 		c.Status(http.StatusNotFound)
 		return nil
 	}
-	return c.JSON(regLink)
+	return c.SendString(regLink.EMail)
 }
 
 func RegisterSetData(c *fiber.Ctx) error {
@@ -32,26 +36,31 @@ func RegisterSetData(c *fiber.Ctx) error {
 	}
 	regLink := settings.GetLink(hash)
 	if regLink == nil {
+		time.Sleep(5 * time.Second) // wait for bruteforce
 		c.Status(http.StatusBadRequest)
-		return nil
+		return errors.New("Произошла ошибка, обратитесь к создателю")
 	}
 
-	usr := new(models.User)
-	err := c.QueryParser(&usr)
-	if err != nil {
+	payload := struct {
+		Login    string `json:"login"`
+		PassHash string `json:"pass"`
+	}{}
+
+	err := json.Unmarshal(c.Body(), &payload)
+	if err != nil || payload.Login == "" || payload.PassHash == "" {
 		c.Status(http.StatusBadRequest)
 		return err
 	}
 
 	usrDB := storage.GetUser(regLink.EMail)
 	if usrDB == nil {
-		usrDB = usr
-	} else {
-		usrDB.Login = usr.Login
-		usrDB.PassHash = usr.PassHash
+		usrDB = new(models.User)
 	}
+	usrDB.Email = regLink.EMail
+	usrDB.Login = payload.Login
+	usrDB.PassHash = payload.PassHash
 	storage.SetUser(usrDB)
-
+	settings.RemLink(hash)
 	c.Status(http.StatusOK)
 	return nil
 }

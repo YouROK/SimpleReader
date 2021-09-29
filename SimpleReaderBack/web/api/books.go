@@ -1,6 +1,7 @@
 package api
 
 import (
+	"io/ioutil"
 	"net/http"
 	"path/filepath"
 
@@ -25,8 +26,31 @@ func GetBook(c *fiber.Ctx) error {
 		return nil
 	}
 
-	path := filepath.Join(settings.Path, hash, "book.fb2")
+	path := filepath.Join(settings.Path, "books", hash, "book.fb2")
 	return c.SendFile(path, true)
+}
+
+func GetBooks(c *fiber.Ctx) error {
+	ses := session.Get(c)
+	usr, _ := ses.Get("User").(*models.User)
+	if usr == nil {
+		c.Status(http.StatusUnauthorized)
+		return nil
+	}
+
+	path := filepath.Join(settings.Path, "books")
+	ff, err := ioutil.ReadDir(path)
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return err
+	}
+	lst := make([]string, 0)
+	for _, info := range ff {
+		if info.IsDir() {
+			lst = append(lst, info.Name())
+		}
+	}
+	return c.JSON(lst)
 }
 
 func GetBin(c *fiber.Ctx) error {
@@ -44,6 +68,6 @@ func GetBin(c *fiber.Ctx) error {
 		return nil
 	}
 
-	path := filepath.Join(settings.Path, hash, name)
+	path := filepath.Join(settings.Path, "books", hash, name)
 	return c.SendFile(path)
 }

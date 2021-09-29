@@ -4,6 +4,7 @@ import (
 	"crypto/sha512"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -13,7 +14,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
-func init() {
+func InitLinksChecker() {
 	go func() {
 		ldir := filepath.Join(Path, "links")
 		os.MkdirAll(ldir, 0777)
@@ -33,9 +34,9 @@ func init() {
 }
 
 type RegLink struct {
-	EMail   string
-	Hash    string
-	Expired time.Time
+	EMail   string    `json:"email"`
+	Hash    string    `json:"hash"`
+	Expired time.Time `json:"expired"`
 }
 
 func addLink(path string) {
@@ -46,17 +47,21 @@ func addLink(path string) {
 		rl.Hash = genHash()
 		rl.Expired = time.Now().Add(time.Hour * 24 * 2)
 
-		db.Update(func(tx *bolt.Tx) error {
+		err = db.Update(func(tx *bolt.Tx) error {
 			links, err := tx.CreateBucketIfNotExists(name("Links"))
 			if err != nil {
 				return err
 			}
 			buf, err := json.Marshal(rl)
 			if err == nil {
-				links.Put(name(rl.Hash), buf)
+				err = links.Put(name(rl.Hash), buf)
 			}
 			return err
 		})
+		if err == nil {
+			fmt.Println("Add temp link:", rl.Hash)
+			os.Remove(path)
+		}
 	}
 }
 
@@ -86,9 +91,9 @@ func checkLinks() {
 func GetLink(hash string) *RegLink {
 	var rl *RegLink
 	db.View(func(tx *bolt.Tx) error {
-		links, err := tx.CreateBucketIfNotExists(name("Links"))
-		if err != nil {
-			return err
+		links := tx.Bucket(name("Links"))
+		if links == nil {
+			return nil
 		}
 
 		buf := links.Get(name(hash))

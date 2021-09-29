@@ -11,7 +11,7 @@ var (
 	store *session.Store
 )
 
-func init() {
+func Init() {
 	cfg := session.ConfigDefault
 	cfg.Expiration = 48 * time.Hour
 	store = session.New(cfg)
