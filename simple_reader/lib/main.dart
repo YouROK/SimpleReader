@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Simple Reader',
       onGenerateRoute: Routes.getRouter().generator,
       theme: appTheme(),
-      initialRoute: '/',
+      initialRoute: '/upload',
     );
   }
 }

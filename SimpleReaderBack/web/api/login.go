@@ -59,7 +59,7 @@ func Login(c *fiber.Ctx) error {
 	}
 	ses := session.Get(c)
 	ses.Set("User", user)
+	ses.Save()
 	c.Status(200)
-	// TODO понять что не так с cookies
 	return c.SendString(ses.ID())
 }

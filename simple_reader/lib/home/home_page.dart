@@ -23,11 +23,21 @@ class HomeState extends State<HomePage> {
       await Api.getBooks();
     } on NotLoginException catch (e) {
       Routes.router.navigateTo(context, "/login");
+    } catch (error) {
+      print(error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container(child: Text("Home")));
+    return Scaffold(
+      body: Container(
+        child: ElevatedButton(
+            child: Text("Home"),
+            onPressed: () {
+              Routes.router.navigateTo(context, "/upload");
+            }),
+      ),
+    );
   }
 }

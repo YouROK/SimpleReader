@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:simple_reader/home/home_page.dart';
+import 'package:simple_reader/upload/upload.dart';
 
 import 'home/not_found_page.dart';
 import 'login/login_page.dart';
@@ -19,6 +20,9 @@ class Routes {
     router.notFoundHandler = Handler(handlerFunc: (context, params) => NotFoundPage());
 
     router.define("/", handler: Handler(handlerFunc: (context, params) => HomePage()));
+
+    router.define("/upload", handler: Handler(handlerFunc: (context, params) => UploadPage()));
+
     router.define("/login", handler: Handler(handlerFunc: (context, params) => LoginPage()));
     router.define("/register/:hash", handler: Handler(handlerFunc: (context, params) => RegisterPage(params["hash"]?.first ?? "")));
   }

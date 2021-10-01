@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	bolt "go.etcd.io/bbolt"
@@ -43,7 +44,7 @@ func addLink(path string) {
 	buf, err := ioutil.ReadFile(path)
 	if err == nil {
 		rl := new(RegLink)
-		rl.EMail = string(buf)
+		rl.EMail = strings.TrimSpace(string(buf))
 		rl.Hash = genHash()
 		rl.Expired = time.Now().Add(time.Hour * 24 * 2)
 

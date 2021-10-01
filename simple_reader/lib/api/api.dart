@@ -56,7 +56,14 @@ class Api {
   }
 
   static Future<Map<String, dynamic>> getBooks() async {
-    final resp = await session.get("/api/books");
+    final resp = await session.get("/api/book/all");
+    return jsonDecode(resp.body);
+  }
+
+  static Future<void> uploadBook(
+    String file,
+  ) async {
+    final resp = await session.get("/api/book/all");
     return jsonDecode(resp.body);
   }
 }
