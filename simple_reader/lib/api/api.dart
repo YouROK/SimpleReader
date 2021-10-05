@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:simple_reader/api/excetion.dart';
 import 'package:simple_reader/api/session.dart';
 import 'package:simple_reader/api/utils.dart';
 
@@ -10,8 +11,12 @@ class Api {
   static Uri getServLink(String link) => session.getLink(link);
 
   static Future<bool> isLogin() async {
-    final resp = await session.get("login");
-    return resp.statusCode == 200;
+    try {
+      final resp = await session.get("/api/login");
+      return resp.statusCode == 200;
+    } on NotLoginException catch (error) {
+      return false;
+    }
   }
 
   static Future<Response> login(String email, String pass) async {

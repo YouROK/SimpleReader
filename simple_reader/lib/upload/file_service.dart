@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as fileUtil;
 import 'package:simple_reader/api/api.dart';
+import 'package:simple_reader/api/excetion.dart';
 
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
@@ -52,7 +53,9 @@ class FileService {
     final httpResponse = await request.close();
     var statusCode = httpResponse.statusCode;
 
-    if (statusCode ~/ 100 != 2) {
+    if (statusCode == 401) {
+      throw NotLoginException();
+    } else if (statusCode ~/ 100 != 2) {
       throw Exception('Error uploading file, Status code: ${httpResponse.statusCode}');
     } else {
       return await readResponseAsString(httpResponse);

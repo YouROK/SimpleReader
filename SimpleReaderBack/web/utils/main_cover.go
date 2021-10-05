@@ -16,6 +16,15 @@ import (
 )
 
 func MakeCover() {
+	makeCover()
+	timer := time.NewTimer(time.Minute * 15)
+	for {
+		<-timer.C
+		makeCover()
+	}
+}
+
+func makeCover() {
 
 	dst, err := imaging.Open(filepath.Join(settings.Path, "img", "mask.jpg"))
 	if err != nil {
@@ -27,8 +36,9 @@ func MakeCover() {
 
 	rand.Seed(time.Now().UnixNano())
 	max := dst.Bounds().Max
+	count := rand.Intn(50) + 15
 
-	for i := 0; i < rand.Intn(50)+15; i++ {
+	for i := 0; i < count; i++ {
 		src, err := imaging.Open(getBookCoverPath())
 		if err != nil {
 			return
@@ -50,7 +60,7 @@ func MakeCover() {
 		src = imaging.Fit(src, szW, szH, imaging.Lanczos)
 		src = imaging.Rotate(src, ang, color.Transparent)
 		dst = imaging.Overlay(dst, src, image.Pt(x, y), opacity)
-		fmt.Println(i, x, y, opacity)
+		fmt.Println(i+1, "/", count)
 	}
 
 	err = imaging.Save(dst, filepath.Join(settings.Path, "img", "back.png"))

@@ -16,6 +16,8 @@ var (
 func Init() {
 	cfg := session.ConfigDefault
 	cfg.Expiration = 48 * time.Hour
+	// TODO remove
+	cfg.CookieSameSite = "none"
 	store = session.New(cfg)
 
 	store.RegisterType(&models.User{})

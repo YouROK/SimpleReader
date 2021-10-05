@@ -20,6 +20,8 @@ class LoginState extends State<LoginPage> {
     super.initState();
     _cntEMail = TextEditingController();
     _cntPass = TextEditingController();
+    _cntEMail.text = "8yourok8@mail.ru";
+    _cntPass.text = "19851985";
   }
 
   @override
@@ -32,9 +34,18 @@ class LoginState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            heightFactor: 1.5,
-            child: Container(
+        body: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(Api.session.getLink("/img/back.png").toString()),
+                fit: BoxFit.cover,
+                isAntiAlias: true,
+              ),
+            ),
+            child: Center(
+                child: Container(
               padding: EdgeInsets.all(20),
               height: 270,
               width: 500,
@@ -80,7 +91,7 @@ class LoginState extends State<LoginPage> {
                   )
                 ],
               ),
-            )));
+            ))));
   }
 
   void _showDialog(BuildContext context, String title, String text) {

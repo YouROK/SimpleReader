@@ -2,6 +2,7 @@ package web
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -23,9 +24,9 @@ func Start() {
 
 	go utils.MakeCover()
 
-	app := fiber.New(fiber.Config{BodyLimit: 10 * 1024 * 1024})
+	app := fiber.New(fiber.Config{BodyLimit: 50 * 1024 * 1024})
 	session.Init()
-	//TO remove on release
+	// TODO remove on release
 	app.Use(cors.New())
 
 	app.Get("/api/login", api.IsLogin)
@@ -41,6 +42,10 @@ func Start() {
 	app.Get("/api/book/get/:hash", api.GetBook)
 	app.Get("/api/book/all", api.GetBooks)
 	app.Get("/api/book/bin/:hash/:name", api.GetBin)
+
+	app.Get("/img/back.png", func(c *fiber.Ctx) error {
+		return c.SendFile(filepath.Join(settings.Path, "img", "back.png"))
+	})
 
 	app.Listen(":9000")
 }

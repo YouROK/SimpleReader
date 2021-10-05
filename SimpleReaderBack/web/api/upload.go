@@ -31,7 +31,7 @@ func Upload(c *fiber.Ctx) error {
 	}
 	defer form.RemoveAll()
 
-	if files, ok := form.File["books"]; ok {
+	for _, files := range form.File {
 		loads := make([]string, 0)
 		errloads := make([]string, 0)
 		for _, f := range files {
@@ -45,6 +45,9 @@ func Upload(c *fiber.Ctx) error {
 
 		for _, b := range loads {
 			if _, ok := user.ReadBooks[b]; !ok {
+				if user.ReadBooks == nil {
+					user.ReadBooks = make(map[string]models.BookInfo)
+				}
 				user.ReadBooks[b] = models.BookInfo{BookHash: b}
 			}
 		}
