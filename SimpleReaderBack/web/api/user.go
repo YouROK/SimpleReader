@@ -16,13 +16,7 @@ func GetStyle(c *fiber.Ctx) error {
 		c.Status(http.StatusUnauthorized)
 		return nil
 	}
-
-	lst := make([]models.BookInfo, 0)
-	for _, info := range usr.ReadBooks {
-		lst = append(lst, info)
-	}
-
-	return c.JSON(lst)
+	return c.JSON(usr.Style)
 }
 
 func GetReadBooks(c *fiber.Ctx) error {

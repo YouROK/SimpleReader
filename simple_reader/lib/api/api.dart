@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:simple_reader/api/excetion.dart';
 import 'package:simple_reader/api/session.dart';
 import 'package:simple_reader/api/utils.dart';
+import 'package:simple_reader/models/book_info.dart';
 
 class Api {
   static Session session = Session();
@@ -50,9 +51,10 @@ class Api {
         }));
   }
 
-  static Future<Map<String, dynamic>> getUserReads() async {
+  static Future<List<BookInfo>> getUserReads() async {
     final resp = await session.get("/api/user/reads");
-    return jsonDecode(resp.body);
+    final list = jsonDecode(resp.body);
+    return (list as List<Map<String, dynamic>>).map((e) => BookInfo.fromJson(e)).toList();
   }
 
   static Future<Map<String, dynamic>> getUserStyle() async {
@@ -70,5 +72,16 @@ class Api {
   ) async {
     final resp = await session.get("/api/book/all");
     return jsonDecode(resp.body);
+  }
+
+  static Future<Map<String, dynamic>> getBookDesc(String hash) async {
+    final resp = await session.get("/api/book/desc/$hash");
+    return jsonDecode(resp.body);
+  }
+
+  static Future<List<String>> search(String query) async {
+    final resp = await session.get("/api/search?query=$query");
+    final json = jsonDecode(resp.body);
+    return (json as List<dynamic>).map((e) => e.toString()).toList();
   }
 }

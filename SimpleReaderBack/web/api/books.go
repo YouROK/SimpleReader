@@ -71,3 +71,25 @@ func GetBin(c *fiber.Ctx) error {
 	path := filepath.Join(settings.Path, "books", hash, name)
 	return c.SendFile(path)
 }
+
+func GetBookDesc(c *fiber.Ctx) error {
+	ses := session.Get(c)
+	usr, _ := ses.Get("User").(*models.User)
+	if usr == nil {
+		c.Status(http.StatusUnauthorized)
+		return nil
+	}
+
+	hash := c.Params("hash", "")
+	if hash == "" {
+		c.Status(http.StatusBadRequest)
+		return nil
+	}
+	buf, err := ioutil.ReadFile(filepath.Join(settings.Path, "books", hash, "desc.json"))
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return err
+	}
+	c.Response().Header.SetContentType("application/json;charset=UTF-8")
+	return c.SendString(string(buf))
+}

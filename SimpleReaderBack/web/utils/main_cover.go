@@ -36,7 +36,7 @@ func makeCover() {
 
 	rand.Seed(time.Now().UnixNano())
 	max := dst.Bounds().Max
-	count := rand.Intn(50) + 15
+	count := rand.Intn(35) + 25
 
 	for i := 0; i < count; i++ {
 		src, err := imaging.Open(getBookCoverPath())
@@ -46,11 +46,11 @@ func makeCover() {
 
 		szW := rand.Intn(580-150) + 150
 		szH := rand.Intn(912-150) + 150
-		ang := rand.Float64()*60 - 30
+		ang := rand.Float64() * 360
 
-		x := int(rand.Float64()*float64(max.X) - float64(szW))
-		y := int(rand.Float64()*float64(max.Y) - float64(szH))
-		opacity := rand.Float64()
+		x := int(rand.Float64()*float64(max.X) - float64(szW)/2)
+		y := int(rand.Float64()*float64(max.Y) - float64(szH)/2)
+		opacity := 0.7 // rand.Float64()
 		if opacity < 0.2 {
 			opacity = 0.2
 		} else if opacity > 0.7 {
@@ -63,7 +63,7 @@ func makeCover() {
 		fmt.Println(i+1, "/", count)
 	}
 
-	err = imaging.Save(dst, filepath.Join(settings.Path, "img", "back.png"))
+	err = imaging.Save(dst, filepath.Join(settings.Path, "img", "back.jpg"))
 	if err != nil {
 		log.Fatalf("failed to save image: %v", err)
 	}

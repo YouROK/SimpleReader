@@ -42,9 +42,15 @@ func Start() {
 	app.Get("/api/book/get/:hash", api.GetBook)
 	app.Get("/api/book/all", api.GetBooks)
 	app.Get("/api/book/bin/:hash/:name", api.GetBin)
+	app.Get("/api/book/desc/:hash", api.GetBookDesc)
 
-	app.Get("/img/back.png", func(c *fiber.Ctx) error {
-		return c.SendFile(filepath.Join(settings.Path, "img", "back.png"))
+	app.Get("/api/search", api.Search)
+
+	app.Get("/img/back.jpg", func(c *fiber.Ctx) error {
+		return c.SendFile(filepath.Join(settings.Path, "img", "back.jpg"))
+	})
+	app.Get("/img/cover.jpg", func(c *fiber.Ctx) error {
+		return c.SendFile(filepath.Join(settings.Path, "img", "cover.jpg"))
 	})
 
 	app.Listen(":9000")

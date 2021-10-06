@@ -41,7 +41,7 @@ func AddBook(buf []byte) (string, error) {
 		return "", errors.New("Error parse book description")
 	}
 
-	err = ioutil.WriteFile(path.Join(bookpath, "info.json"), desc, 0664)
+	err = ioutil.WriteFile(path.Join(bookpath, "desc.json"), desc, 0664)
 	if err != nil {
 		os.RemoveAll(bookpath)
 		return "", err
@@ -54,6 +54,24 @@ func AddBook(buf []byte) (string, error) {
 			ioutil.WriteFile(path.Join(bookpath, i.ID), buf, 0664)
 		}
 	}
+
+	bins := book.Binary
+	for i, _ := range bins {
+		bins[i].Value = ""
+	}
+
+	bufBins, err := json.Marshal(bins)
+	if err != nil {
+		os.RemoveAll(bookpath)
+		return "", errors.New("Error parse book bins")
+	}
+
+	err = ioutil.WriteFile(path.Join(bookpath, "bins.json"), bufBins, 0664)
+	if err != nil {
+		os.RemoveAll(bookpath)
+		return "", err
+	}
+
 	return hash, nil
 }
 
@@ -72,7 +90,7 @@ func GetBook(hash string) (*fb2.FB2, error) {
 }
 
 func GetDesc(hash string) (*fb2.Description, error) {
-	infopath := path.Join(settings.Path, "books", hash, "info.json")
+	infopath := path.Join(settings.Path, "books", hash, "desc.json")
 	buf, err := ioutil.ReadFile(infopath)
 	if err != nil {
 		return nil, err
@@ -80,6 +98,17 @@ func GetDesc(hash string) (*fb2.Description, error) {
 	var desc *fb2.Description
 	err = json.Unmarshal(buf, &desc)
 	return desc, err
+}
+
+func GetBins(hash string) ([]fb2.Binary, error) {
+	infopath := path.Join(settings.Path, "books", hash, "bins.json")
+	buf, err := ioutil.ReadFile(infopath)
+	if err != nil {
+		return nil, err
+	}
+	var bins []fb2.Binary
+	err = json.Unmarshal(buf, &bins)
+	return bins, err
 }
 
 func GetImage(hash string, name string) ([]byte, error) {
