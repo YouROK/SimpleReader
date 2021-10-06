@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:simple_reader/api/api.dart';
 
 class DescPage extends StatefulWidget {
-  const DescPage(this.hash, {Key? key}) : super(key: key);
+  const DescPage(this.hash,{Key? key}) : super(key: key);
 
   final String hash;
 
@@ -29,4 +30,5 @@ class DescState extends State<DescPage> {
       appBar: AppBar(),
     );
   }
+
 }
