@@ -45,7 +45,7 @@ function loadReadPages(line, done){
 		currPage = $("#currentPage");
 		currPage.empty();
 		currPage.html(currentContent);
-		console.log("current",lastLine);
+		// console.log("current",lastLine);
 		if (done)
 			done(lastLine);
 	})
@@ -59,7 +59,7 @@ function loadNextPage(line, done){
 		nextPage = $("#nextPage");
 		nextPage.empty();
 		nextPage.html(nextContent);
-		console.log("next",lastLine);
+		// console.log("next",lastLine);
 		if (done)
 			done(lastLine);
 	})
