@@ -30,7 +30,7 @@ func (fbp *FBParser) parseContent(xmlText string) *[]ContentItem {
 func (fbp *FBParser) getNodeList(node *Node, ret *[]Node) {
 	for _, n := range node.Childs {
 		switch strings.ToLower(n.Key) {
-		case "style", "author", "text-author", "date", "empty-line", "stanza", "cite", "poem", "image", "title", "epigraph", "emphasis", "p":
+		case "style", "author", "text-author", "date", "empty-line", "stanza", "cite", "poem", "image", "title", "epigraph", "subtitle", "emphasis", "p":
 			{
 				*ret = append(*ret, n)
 			}
@@ -84,7 +84,7 @@ func (fbp *FBParser) xml2html(node []Node, ret *string, notes *string) {
 				fbp.xml2html(v.Childs, ret, notes)
 				*ret += "</i>\n"
 			}
-		case "p":
+		case "p", "subtitle":
 			{
 				*ret += "<p>\n"
 				fbp.xml2html(v.Childs, ret, notes)
