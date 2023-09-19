@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"runtime"
 	"syscall"
 
 	"github.com/go-martini/martini"
@@ -25,11 +24,11 @@ func catchExitSignals() {
 }
 
 func main() {
-	runtime.GOMAXPROCS(4)
 	host := ""
-	port := "9000"
-	chdir := "/home/yourok/sr" //os.Getenv("OPENSHIFT_DATA_DIR")
-
+	port := "8092"
+	chdir := "/home/yourok/sr"
+	//TODO remove
+	//chdir = "/Users/yourok/Projects/GO/SimpleReader"
 	if len(os.Args) >= 2 {
 		host = os.Args[1]
 	}
