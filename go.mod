@@ -6,7 +6,6 @@ require (
 	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab
 	github.com/martini-contrib/gzip v0.0.0-20151124214156-6c035326b43f
 	github.com/martini-contrib/render v0.0.0-20150707142108-ec18f8345a11
-	github.com/mattn/go-sqlite3 v1.14.8
 	golang.org/x/net v0.0.0-20210917221730-978cfadd31cf
 )
 
