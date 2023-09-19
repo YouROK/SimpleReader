@@ -35,9 +35,9 @@ func CreateServer(host string) *Server {
 	server.martini.Use(storage.Sessions())
 	server.martini.Use(martini.Static("db/storage/"))
 	views := "views"
-	// if martini.Env == martini.Dev {
-	// 	views = "server/server/" + views
-	// }
+	//if martini.Env == martini.Dev {
+	//	views = "server/" + views
+	//}
 	server.martini.Use(render.Renderer(render.Options{Directory: views, Extensions: []string{".go.html", ".html"}}))
 	server.martini.MapTo(s, (*storage.Storages)(nil))
 	server.Host = host
