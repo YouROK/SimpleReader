@@ -5,13 +5,9 @@ function initSwipe(swipeLeft, swipeRight){
 	sLeft = swipeLeft
 	sRight = swipeRight
 	$(window).scroll(function() {scrolling = true});
-	if (!isIe()){
-		$(document).on("vmousedown", "#content", mouseDown);
-    		$(document).on("vmouseup", "#content", mouseUp);
-	}else{
-		$("#content").on("swipeleft", sLeft);
-		$("#content").on("swiperight", sRight);
-	}
+
+	$("#content").on("swipeleft", sLeft);
+	$("#content").on("swiperight", sRight);
 }
 
 function mouseDown(e){
@@ -34,7 +30,7 @@ function mouseUp(e){
 			if (xDown<0 && sLeft)
 				sLeft(e);
 		}
-		//$("#header").html("U "+xDown+" "+yDown+" "+tDown);
+		// $("#header").html("U "+xDown+" "+yDown+" "+tDown);
 	}
 	isDown = false;
 }
@@ -96,9 +92,4 @@ function fadeNext(done) {
 
 function scrollToTop(){
 	$.mobile.silentScroll($('#header').offset().top+$('#header').height());
-}
-
-function isIe(){
-	var nAgt = navigator.userAgent;
-	return (/IEMobile/i).test(nAgt);
 }
