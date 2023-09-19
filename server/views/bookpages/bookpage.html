@@ -86,6 +86,13 @@
 		})
 	})
 
+	$(document).keydown(function(e) {
+		if(e.keyCode===39)
+			NextPage();
+		else if (e.keyCode===37)
+			PrevPage();
+	})
+
 	function NextPage(){
 		if (book.nextpage>=book.count)
 			return;
