@@ -1,3 +1,3 @@
 package global
 
-var Stoping bool = false
+var Stoped bool = false

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+	<title>SimpleReader - Книги {{.Session.User.Name}}</title>
+</head>
+<body>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+	<link rel="stylesheet" href="/css/main.css" />
+	<script src="/js/main.js"></script>
+	{{template "metrica" .}}
+
+<div data-role="page">
+	<div data-role="header" id="header" data-id="header" data-tap-toggle="false">
+		<a rel="external" href="/" data-icon="home" style="border-radius:.3125em;" class="ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-left"></a>
+		<h1>Книги - {{.Session.User.Name}}</h1>
+		{{template "menu/mainMenu" .Session}}
+	</div>
+	<div data-role="content">
+		<div class="canvas">
+			{{range .Books}}
+			<a {{if $.Edit}} style="float:left;width:80%;"{{end}} class="mainbookhref" rel="external" href="/book/{{.Hash}}">
+				<div class="mainbookbox">
+				<img class="mainbookcover" src="/getcover/{{.Hash}}" align="left" />
+				<p>{{.BookTitle}}</p>
+				<p>{{.Author.FirstName}} {{.Author.MiddleName}} {{.Author.LastName}}</p>
+				<p>{{.Sequence.Name}} {{.Sequence.Number}}</p>
+				<p><small>{{.GetGenresStr}}</small></p>
+				</div>
+			</a>
+			{{if $.Edit}}<div onclick="toggle('{{.Hash}}')" class="mainbookbox" style="float:left; width: 10%;height: 100%;bottom: 0; right: 1em;" align="center"><img class="deletebook" id="{{.Hash}}" src="/img/unchecked_checkbox-32.png"/></div>{{end}}
+			{{end}}
+			{{if $.Edit}}
+			<a href="#" style="float:left;width:80%;" class="mainbookhref" onclick="DeleteBooks()"><div class="mainbookbox" align="center"><h3>Удалить</h3></div></a>
+			{{end}}
+		</div>
+	</div>
+</div>
+
+{{if .Edit}}
+<script>
+	function toggle(id){
+		var newIcon = "";
+		var Img = $('#'+id);
+		var oldIcon = Img.attr('src');
+
+		if(oldIcon.indexOf("unchecked")>=0)
+		    newIcon = "/images/checked_checkbox-32.png";
+		else
+		    newIcon = "/images/unchecked_checkbox-32.png";
+
+		Img.attr('src', newIcon);
+    }
+
+	function DeleteBooks(){
+        var removebooks = [];
+        var lis = $('.deletebook');
+        lis.each(function(){
+            if($(this).attr('src').indexOf("unchecked") < 0)
+                removebooks.push(this.id);
+        });
+
+		if (removebooks.length>0)
+			Send("/removebooks",removebooks,function(){
+				location.reload();
+			})
+	}
+</script>
+{{end}}
+</body>
+</html>

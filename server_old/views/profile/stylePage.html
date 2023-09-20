@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+	<meta name="robots" content="noindex, nofollow"/>
+	<title>SimpleReader - Настройки</title>
+</head>
+<body>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+	<link rel="stylesheet" href="/css/main.css" />
+	<script src="/js/main.js"></script>
+	{{template "metrica" .}}
+
+	<div data-role="page">
+		<div data-role="header" data-id="header" data-tap-toggle="false">
+		<a rel="external" href="/" data-icon="home" style="border-radius:.3125em;" class="ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-left"></a>
+		<h1>Настройки</h1>
+		{{template "menu/mainMenu" .}}
+		</div>
+		<div data-role="content" id="content">
+			<div class="canvas">
+				<fieldset>
+				        <label>Стиль:</label>
+				        <div data-role="controlgroup" data-type="horizontal">
+				            <input type="radio" onclick="setDayTheme(true);" name="radio-choice-theme" id="theme-choice-1" {{if eq .User.Style.DayTheme true}} checked="true"{{end}}/>
+				            <label for="theme-choice-1">Дневной</label>
+				            <input type="radio" onclick="setDayTheme(false);" name="radio-choice-theme" id="theme-choice-2" {{if eq .User.Style.DayTheme false}} checked="true"{{end}}/>
+				            <label for="theme-choice-2">Ночной</label>
+				        </div>
+				    </fieldset><br><br>
+				    <fieldset>
+				        <label>Перелистывание страниц:</label>
+				        <div data-role="controlgroup">
+				            <input type="radio" onclick="setEffectSlide(0);" name="radio-choice-effect" id="effect-choice-1" {{if eq .User.Style.PageSlideEffect 0}} checked="true"{{end}}/>
+				            <label for="effect-choice-1">Смещение вертикально</label>
+				            <input type="radio" onclick="setEffectSlide(1);" name="radio-choice-effect" id="effect-choice-2" {{if eq .User.Style.PageSlideEffect 1}} checked="true"{{end}}/>
+				            <label for="effect-choice-2">Исчезание</label>
+				        </div>
+				    </fieldset><br><br>
+				    <fieldset>
+				        <label>Размер текста:</label>
+				        <input id="slidertextcolor0" min="1" max="500" value="0" type="range" onchange="setTextSize(this.value/100);">
+
+				        <label>Отступ красной строки:</label>
+				        <input id="slidertextcolor1" min="1" max="300" value="0" type="range" onchange="setTextIdent(this.value/100);">
+
+				        <label>Расстояние между строк:</label>
+				        <input id="slidertextcolor2" min="1" max="200" value="0" type="range" onchange="setParIdent(this.value/100);">
+
+				        <label>Яркость текста:</label>
+				        <input id="slidertextcolor3" min="0" max="255" value="0" type="range" onchange="setColorBright(this.value);">
+
+				    </fieldset><br>
+					<fieldset>
+						<div>
+						    <div id="textColorBrightnessWhite" style="text-shadow:none;background-color: #ffffff">
+						        <p style="margin-top:0;margin-bottom:0.2em;">Пример текста<br>Пример текста</p>
+							</div>
+							<div id="textColorBrightnessBlack" style="text-shadow:none;background-color: #000000">
+								<p style="margin-top:0;margin-bottom:0.2em;">Пример текста<br>Пример текста</p>
+							</div>
+						</div>
+					</fieldset><br>
+					<fieldset>
+						<style>
+							ul li:hover {
+	    							background: none repeat scroll 0 0 #C6D4FB !important;
+	    							color: #000000 !important;
+							}
+						</style>
+						<div data-role="collapsible" id="fontslist">
+							<h4><small>Шрифты</small></h4>
+							<ul data-role="listview">
+							<li><div onclick='setFont()'>По умолчанию</div></li>
+							<li><div onclick='setFont({{"Arial, Helvetica, sans-serif"}})'  style="font-family: Arial, Helvetica, sans-serif;">Arial, Helvetica, sans-serif</div></li>
+							<li><div onclick='setFont({{"'Arial Black', Gadget, sans-serif"}})'  style="font-family: 'Arial Black', Gadget, sans-serif;">'Arial Black', Gadget, sans-serif</div></li>
+							<li><div onclick='setFont({{"'Bookman Old Style', serif"}})'  style="font-family: 'Bookman Old Style', serif;">'Bookman Old Style', serif</div></li>
+							<li><div onclick='setFont({{"'Comic Sans MS', cursive"}})'  style="font-family: 'Comic Sans MS', cursive;">'Comic Sans MS', cursive</div></li>
+							<li><div onclick='setFont({{"Courier, monospace"}})'  style="font-family: Courier, monospace;">Courier, monospace</div></li>
+							<li><div onclick='setFont({{"'Courier New', Courier, monospace"}})'  style="font-family: 'Courier New', Courier, monospace;">'Courier New', Courier, monospace</div></li>
+							<li><div onclick='setFont({{"Garamond, serif"}})'  style="font-family: Garamond, serif;">Garamond, serif</div></li>
+							<li><div onclick='setFont({{"Georgia, serif"}})'  style="font-family: Georgia, serif;">Georgia, serif</div></li>
+							<li><div onclick='setFont({{"Impact, Charcoal, sans-serif"}})'  style="font-family: Impact, Charcoal, sans-serif;">Impact, Charcoal, sans-serif</div></li>
+							<li><div onclick='setFont({{"'Lucida Console', Monaco, monospace"}})'  style="font-family: 'Lucida Console', Monaco, monospace;">'Lucida Console', Monaco, monospace</div></li>
+							<li><div onclick='setFont({{"'Lucida Sans Unicode', 'Lucida Grande', sans-serif"}})'  style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;">'Lucida Sans Unicode', 'Lucida Grande', sans-serif</div></li>
+							<li><div onclick='setFont({{"'MS Sans Serif', Geneva, sans-serif"}})'  style="font-family: 'MS Sans Serif', Geneva, sans-serif;">'MS Sans Serif', Geneva, sans-serif</div></li>
+							<li><div onclick='setFont({{"'MS Serif', 'New York', sans-serif"}})'  style="font-family: 'MS Serif', 'New York', sans-serif;">'MS Serif', 'New York', sans-serif</div></li>
+							<li><div onclick='setFont({{"'Palatino Linotype', 'Book Antiqua', Palatino, serif"}})'  style="font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;">'Palatino Linotype', 'Book Antiqua', Palatino, serif</div></li>
+							<li><div onclick='setFont({{"Symbol, sans-serif"}})'  style="font-family: Symbol, sans-serif;">Symbol, sans-serif</div></li>
+							<li><div onclick='setFont({{"Tahoma, Geneva, sans-serif"}})'  style="font-family: Tahoma, Geneva, sans-serif;">Tahoma, Geneva, sans-serif</div></li>
+							<li><div onclick='setFont({{"'Times New Roman', Times, serif"}})'  style="font-family: 'Times New Roman', Times, serif;">'Times New Roman', Times, serif</div></li>
+							<li><div onclick='setFont({{"'Trebuchet MS', Helvetica, sans-serif"}})'  style="font-family: 'Trebuchet MS', Helvetica, sans-serif;">'Trebuchet MS', Helvetica, sans-serif</div></li>
+							<li><div onclick='setFont({{"Verdana, Geneva, sans-serif"}})'  style="font-family: Verdana, Geneva, sans-serif;">Verdana, Geneva, sans-serif</div></li>
+							<li><div onclick='setFont({{"Webdings, sans-serif"}})'  style="font-family: Webdings, sans-serif;">Webdings, sans-serif</div></li>
+							<li><div onclick='setFont({{"Wingdings, 'Zapf Dingbats', sans-serif"}})'  style="font-family: Wingdings, 'Zapf Dingbats', sans-serif;">Wingdings, 'Zapf Dingbats', sans-serif</div></li>
+							</ul>
+						</div>
+					</fieldset><br><br>
+				    <input type="button" value="Сохранить изменения" onclick="saveTheme()" data-icon="check"/>
+			</div>
+		</div>
+	</div>
+<script>
+
+var PageSlideEffect = {{.User.Style.PageSlideEffect}};
+var TextSize = {{.User.Style.TextSize}};
+var TextIndent = {{.User.Style.TextIndent}};
+var ParagraphIndent = {{.User.Style.ParagraphIndent}};
+var TextBright = {{.User.Style.TextBright}};
+var DayTheme = {{.User.Style.DayTheme}};
+var FontName = {{.User.Style.FontName}};
+
+$(document ).ready(function(){
+    setTextIdent(TextIndent);
+    setTextSize(TextSize);
+    setParIdent(ParagraphIndent);
+    setColorBright(TextBright);
+    setDayTheme(DayTheme);
+    setEffectSlide(PageSlideEffect);
+	setFont(FontName);
+
+	$("#slidertextcolor0").val(TextSize*100);
+	$("#slidertextcolor0").slider('refresh');
+	$("#slidertextcolor1").val(TextIndent*100);
+	$("#slidertextcolor1").slider('refresh');
+	$("#slidertextcolor2").val(ParagraphIndent*100);
+	$("#slidertextcolor2").slider('refresh');
+	$("#slidertextcolor3").val(TextBright);
+	$("#slidertextcolor3").slider('refresh');
+})
+
+function setFont(val){
+	FontName = val;
+	if (!val){
+		$('#textColorBrightnessWhite').css('font-family','');
+		$('#textColorBrightnessBlack').css('font-family','');
+	}else{
+		$('#textColorBrightnessWhite').css('font-family',val);
+		$('#textColorBrightnessBlack').css('font-family',val);
+	}
+	$("#fontslist").collapsible('collapse');
+}
+
+function setEffectSlide(val){
+    PageSlideEffect = val;
+}
+
+function setTextSize(val){
+    TextSize = val;
+    $('#textColorBrightnessWhite' ).css('font-size', val+'em');
+    $('#textColorBrightnessBlack' ).css('font-size', val+'em');
+}
+
+function setTextIdent(val){
+    TextIndent = val;
+    $('#textColorBrightnessWhite' ).css('text-indent', val+'em');
+    $('#textColorBrightnessBlack' ).css('text-indent', val+'em');
+}
+
+function setParIdent(val){
+    ParagraphIndent = val;
+    $('#textColorBrightnessWhite p' ).css('line-height', val+'em');
+    $('#textColorBrightnessBlack p' ).css('line-height', val+'em');
+}
+
+function setColorBright(clr){
+    var bclr = 255 - clr;
+    TextBright = Number(clr);
+    $('#textColorBrightnessWhite' ).css({color: 'rgb(' + clr + ',' + clr + ',' + clr + ')'} );
+    $('#textColorBrightnessBlack' ).css({color: 'rgb(' + bclr + ',' + bclr + ',' + bclr + ')'} );
+}
+
+function setDayTheme(val){
+    DayTheme = val;
+}
+
+function saveTheme(){
+    $.mobile.loading("show");
+	var json = {
+		PageSlideEffect:PageSlideEffect,
+		TextSize:TextSize,
+		TextIndent:TextIndent,
+		ParagraphIndent:ParagraphIndent,
+		TextBright:TextBright,
+		DayTheme:DayTheme,
+		FontName:FontName
+	};
+
+    Send("/setstyle", json);
+    $.mobile.loading("hide");
+}
+</script>
+</body>
+</html>

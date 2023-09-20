@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+	<meta name="description" content="Электронная библиотека. Читайте бесплатно и без регистрации на мобильных устройствах. Загружайте fb2 и читайте онлайн на компьютере, планшете и мобильном телефоне">
+	<meta name="keywords" content="книги читать онлайн, книги, читать онлайн, бесплатно, без регистрации, мобильные, fb2, читать fb2" />
+	<title>SimpleReader</title>
+
+</head>
+<body>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+	<link rel="stylesheet" href="/css/main.css" />
+	<script src="/js/main.js"></script>
+	{{template "metrica" .}}
+
+<div data-role="page">
+	<div data-role="header" data-id="header" data-tap-toggle="false">
+	<h1>SimpleReader</h1>
+	{{template "menu/mainMenu" .Session}}
+	</div>
+	<div data-role="content">
+		<div class="canvas">
+			{{if ne .Session.Login 1}}<a class="mainbookhref" rel="external" href="/login"><div class="mainbookbox" align="center"><h3>Войти</h3></div></a>{{end}}
+			<a class="mainbookhref" rel="external" href="/search"><div class="mainbookbox" align="center"><h3>Найти книгу</h3></div></a>
+			{{range .Books}}
+			<a class="mainbookhref" rel="external" href="/book/{{.Hash}}">
+				<div class="mainbookbox">
+				<img class="mainbookcover" src="/getcover/{{.Hash}}" align="left" />
+				<p>{{.BookTitle}}</p>
+				<p>{{.Author.LastName}} {{.Author.MiddleName}} {{.Author.FirstName}}</p>
+				<p>{{.Sequence.Name}} {{.Sequence.Number}}</p>
+				<p><small>{{.GetGenresStr}}</small></p>
+				</div>
+			</a>
+			{{end}}
+		</div>
+	</div>
+</div>
+</body>
+</html>
