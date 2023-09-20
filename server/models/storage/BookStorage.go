@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"os"
 	"path"
@@ -194,13 +195,14 @@ func (bs *BookStorage) saveFb2File(b *[]byte) (string, error) {
 	//save images
 	bins := fb2.GetImages()
 	for _, i := range *bins {
-		imgF, err := os.Create(path.Join(bookpath, i.Id))
+		buf, err := base64.StdEncoding.DecodeString(i.Binary)
 		if err == nil {
-			buf, err := base64.StdEncoding.DecodeString(i.Binary)
-			if err == nil {
-				imgF.Write(buf)
+			err = os.WriteFile(path.Join(bookpath, i.Id), buf, 0666)
+			if err != nil {
+				log.Println("Error save binary:", err)
 			}
-			imgF.Close()
+		} else {
+			log.Println("Error parse binary:", err)
 		}
 	}
 	return hash, nil
