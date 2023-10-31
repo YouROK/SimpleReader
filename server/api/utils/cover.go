@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"log"
@@ -32,16 +31,16 @@ func makeCover() {
 	dst = imaging.Resize(dst, 1920, 1080, imaging.Lanczos)
 	dst = imaging.Blur(dst, 5)
 
-	rand.Seed(time.Now().UnixNano())
+	//rand.Seed(time.Now().UnixNano())
 	max := dst.Bounds().Max
 	count := rand.Intn(35) + 25
-
-	for i := 0; i < count; i++ {
+	adds := 0
+	for adds < count {
 		bcp := getBookCoverPath()
 		if bcp == "" {
 			continue
 		}
-		fmt.Println("Open", bcp)
+		//fmt.Println("Open", bcp)
 		src, err := imaging.Open(bcp)
 		if err != nil {
 			return
@@ -63,10 +62,11 @@ func makeCover() {
 		src = imaging.Fit(src, szW, szH, imaging.Lanczos)
 		src = imaging.Rotate(src, ang, color.Transparent)
 		dst = imaging.Overlay(dst, src, image.Pt(x, y), opacity)
-		fmt.Println(i+1, "/", count)
+		adds++
+		//fmt.Println(adds, "/", count)
 	}
 
-	err = imaging.Save(dst, filepath.Join("public/img/back.jpg"))
+	err = imaging.Save(dst, filepath.Join("public/img/back.png"))
 	if err != nil {
 		log.Fatalf("failed to save image: %v", err)
 	}

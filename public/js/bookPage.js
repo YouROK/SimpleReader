@@ -40,12 +40,11 @@ function getLastReadPage(book){
 function loadReadPages(line, done){
 	if (line>book.count)
 		return;
-	var wndHeight = $(window).height() - ($('#currentPage').offset().top + $('#footer').outerHeight());
+	var wndHeight = $(window).height() - ($('#currentPage').offset().top + $('#footer').outerHeight()+60);
 	getPage(book, line, wndHeight, function(currentContent, lastLine){
 		currPage = $("#currentPage");
 		currPage.empty();
 		currPage.html(currentContent);
-		// console.log("current",lastLine);
 		if (done)
 			done(lastLine);
 	})
@@ -54,12 +53,11 @@ function loadReadPages(line, done){
 function loadNextPage(line, done){
 	if (line>book.count)
 		return;
-	var wndHeight = $(window).height() - ($('#currentPage').offset().top + $('#footer').outerHeight());
+	var wndHeight = $(window).height() - ($('#currentPage').offset().top + $('#footer').outerHeight()+60);
 	getPage(book, line, wndHeight, function(nextContent,lastLine){
 		nextPage = $("#nextPage");
 		nextPage.empty();
 		nextPage.html(nextContent);
-		// console.log("next",lastLine);
 		if (done)
 			done(lastLine);
 	})
@@ -90,8 +88,6 @@ function getPage(book, start, height, done){
 	}
 	if (notes)
         html += "<hr align='center' width='90%' size='1'/><div align=left>" + notes + "</div>";
-	if (!isLogin && html.length>0)
-		html = "<a rel='external' href='/login' style='color: silver;'><div align='center'>Вы не зашли на сайт</div></a>"+html;
 	content.remove();
 	if (done)
 		done(html, curLine);
@@ -117,7 +113,6 @@ function getLine(book, index){
 
 function loadContent(id, start){
 	var json = null;
-	$.mobile.loading("show");
 	try{
 	    $.ajax({
 	        type: 'POST',
@@ -133,18 +128,13 @@ function loadContent(id, start){
 			json = data;
 		})
 		.fail(function (data){
-			DialogShow("Ошибка при загрузке страницы",1000);
-			json = null;
-		})
-		.error(function (data){
-			DialogShow("Ошибка при загрузке страницы",1000);
+			ons.notification.toast("Ошибка при загрузке страницы", {timeout: 2000});
 			json = null;
 		});
 	} catch(e) {
-		DialogShow("Ошибка при загрузке страницы",1000);
+		ons.notification.toast("Ошибка при загрузке страницы", {timeout: 2000});
 		json = null;
 	}
-	$.mobile.loading("hide");
     return json;
 }
 

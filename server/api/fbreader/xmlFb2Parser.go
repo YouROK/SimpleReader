@@ -17,17 +17,17 @@ func (fbp *FBParser) parseNotes() error {
 	return nil
 }
 
-func (fbp *FBParser) parseContent(xmlText string) *[]ContentItem {
+func (fbp *FBParser) parseContent(xmlText string) []ContentItem {
 	if xmlText == "" {
 		return nil
 	}
 	root := Parse(xmlText)
-	var xmlList []Node = []Node{}
+	var xmlList = []*Node{}
 	fbp.getNodeList(root, &xmlList)
 	return fbp.parseNodeList(xmlList)
 }
 
-func (fbp *FBParser) getNodeList(node *Node, ret *[]Node) {
+func (fbp *FBParser) getNodeList(node *Node, ret *[]*Node) {
 	for _, n := range node.Childs {
 		switch strings.ToLower(n.Key) {
 		case "style", "author", "text-author", "date", "empty-line", "stanza", "cite", "poem", "image", "title", "epigraph", "subtitle", "emphasis", "p":
@@ -45,20 +45,20 @@ func (fbp *FBParser) getNodeList(node *Node, ret *[]Node) {
 					}
 				}
 				if sectionTitle != "" {
-					*ret = append(*ret, Node{Key: "section", Value: sectionTitle, Parent: n.Parent})
+					*ret = append(*ret, &Node{Key: "section", Value: sectionTitle, Parent: n.Parent})
 				}
-				fbp.getNodeList(&n, ret)
+				fbp.getNodeList(n, ret)
 			}
 		default:
 			{
-				fbp.getNodeList(&n, ret)
+				fbp.getNodeList(n, ret)
 			}
 		}
 
 	}
 }
 
-func (fbp *FBParser) parseNodeList(list []Node) *[]ContentItem {
+func (fbp *FBParser) parseNodeList(list []*Node) []ContentItem {
 	if len(list) == 0 {
 		return nil
 	}
@@ -66,16 +66,16 @@ func (fbp *FBParser) parseNodeList(list []Node) *[]ContentItem {
 	for _, v := range list {
 		var htm string
 		var notes string
-		fbp.xml2html([]Node{v}, &htm, &notes)
+		fbp.xml2html([]*Node{v}, &htm, &notes)
 		ret = append(ret, ContentItem{Text: template.HTML(htm), Note: template.HTML(notes)})
 		if v.Key == "section" {
-			*fbp.chapters = append(*fbp.chapters, Chapter{v.Value, len(ret) - 1})
+			fbp.chapters = append(fbp.chapters, Chapter{v.Value, len(ret) - 1})
 		}
 	}
-	return &ret
+	return ret
 }
 
-func (fbp *FBParser) xml2html(node []Node, ret *string, notes *string) {
+func (fbp *FBParser) xml2html(node []*Node, ret *string, notes *string) {
 	for _, v := range node {
 		switch strings.ToLower(v.Key) {
 		case "date", "style", "emphasis":

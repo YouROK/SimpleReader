@@ -9,7 +9,7 @@ type Node struct {
 	Key    string
 	Value  string
 	Attr   []xml.Attr
-	Childs []Node
+	Childs []*Node
 	Parent *Node
 }
 
@@ -17,7 +17,7 @@ func Parse(xmlStr string) *Node {
 	decoder := xml.NewDecoder(strings.NewReader(xmlStr))
 
 	root := Node{}
-	root.Childs = make([]Node, 0)
+	root.Childs = make([]*Node, 0)
 	parse(decoder, &root)
 	return &root
 }
@@ -38,7 +38,7 @@ func parse(decoder *xml.Decoder, root *Node) {
 					next.Attr = elm.Copy().Attr
 				}
 				parse(decoder, &next)
-				root.Childs = append(root.Childs, next)
+				root.Childs = append(root.Childs, &next)
 			}
 		case xml.EndElement:
 			{
@@ -52,7 +52,7 @@ func parse(decoder *xml.Decoder, root *Node) {
 					next.Parent = root
 					next.Key = "#text"
 					next.Value = txt
-					root.Childs = append(root.Childs, next)
+					root.Childs = append(root.Childs, &next)
 				}
 			}
 		}

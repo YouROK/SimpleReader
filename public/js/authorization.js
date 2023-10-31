@@ -1,7 +1,7 @@
 function GetKey(){
 	var key = null;
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '/getkey',
         timeout: 30000,
         async: false,
@@ -12,27 +12,26 @@ function GetKey(){
     return key;
 }
 
-function Login(Username, Password, Captcha, BackUrl){
-	if (!Username || !Password)
-	{
-	      DialogShow("Заполните все поля", 2000);
-	      return;
-	  }
+function Login(backPage){
+	const username = document.querySelector('#username').value;
+	const password = document.querySelector('#password').value;
+	const captcha = document.querySelector('#captchaInp').value;
 
-	  var reg = new RegExp("[^a-zA-Z0-9@#*_+]+");
-	  if (reg.test(Username) || Username.length > 30)
-	  {
-	      DialogShow("Указанное имя недопустимо, содержит недопустимые символы или имеет длину более 30 знаков", 2000);
-	      return;
-	  }
+	if (!username || !password) {
+		ons.notification.alert('Заполните все поля',{title:""});
+		return;
+	}
 
-	  $.mobile.loading("show");
+	var reg = new RegExp("[^a-zA-Z0-9@#*_+]+");
+	if (reg.test(username) || username.length > 30) {
+		ons.notification.alert('Указанное имя недопустимо, содержит недопустимые символы или имеет длину более 30 знаков',{title:""});
+		return;
+	}
 
 	var key = GetKey();
 	if (key){
-
-		var pass = b64_sha1(Password);
-       	var name = Username;
+		var pass = b64_sha1(password);
+       	var name = username;
 
 		var rsa = new RSAKey();
 		rsa.setPublic(key.Mod, key.Exp);
@@ -40,8 +39,7 @@ function Login(Username, Password, Captcha, BackUrl){
 		var cryptPass = hex2b64(rsa.encrypt(pass));
 		var cryptName = hex2b64(rsa.encrypt(name));
 
-		var json = {Login: cryptName, Password: cryptPass, Captcha: Captcha};
-
+		var json = {Login: cryptName, Password: cryptPass, Captcha: captcha};
 		var request = $.ajax({
            		type: 'POST',
            		url: '/login',
@@ -53,19 +51,22 @@ function Login(Username, Password, Captcha, BackUrl){
        		});
 		request.always(function (data,status){
             if (data){
-				if (data.Code != 0){
+				if (data.Code !== 0){
 					if (data.Captcha){
-						$('#captcha').show();
-						$('#captchaimg').attr('src', data.Captcha);
+						$('#captchaDiv').show();
+						$('#captchaImg').attr('src', data.Captcha);
 					}
-					DialogShow(data.Msg)
+					if(data.Msg)
+						ons.notification.alert(data.Msg,{title:""});
 				}else{
-					window.location = BackUrl
+					if (backPage)
+						window.location = backPage;
+					else
+						window.location = "/";
 				}
             }
         });
 	}
-	$.mobile.loading("hide");
 }
 
 function Register(name,pass,pass2,email,captcha){

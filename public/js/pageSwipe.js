@@ -91,5 +91,6 @@ function fadeNext(done) {
 }
 
 function scrollToTop(){
-	$.mobile.silentScroll($('#header').offset().top+$('#header').height());
+	// $.mobile.silentScroll($('#header').offset().top+$('#header').height());
+	$('ons-page').scrollTop($('#postheader').offset().top);
 }

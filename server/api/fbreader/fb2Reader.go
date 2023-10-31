@@ -26,10 +26,10 @@ type FBParser struct {
 	description *fb2.XMLTitleInfo
 	xmlBook     *fb2.XMLBook
 	xmlNotes    *fb2.XMLNotes
-	xmlBinares  *[]fb2.XMLBinary
-	annotation  *[]ContentItem
-	bookcontent *[]ContentItem
-	chapters    *[]Chapter
+	xmlBinares  []fb2.XMLBinary
+	annotation  []ContentItem
+	bookcontent []ContentItem
+	chapters    []Chapter
 }
 
 func GetParser(bookpath string) *FBParser {
@@ -59,26 +59,26 @@ func (fbp *FBParser) GetDescription() *fb2.XMLTitleInfo {
 	return fbp.description
 }
 
-func (fbp *FBParser) GetImages() *[]fb2.XMLBinary {
+func (fbp *FBParser) GetImages() []fb2.XMLBinary {
 	return fbp.xmlBinares
 }
 
-func (fbp *FBParser) GetAnnotation() *[]ContentItem {
+func (fbp *FBParser) GetAnnotation() []ContentItem {
 	if fbp.annotation == nil {
-		return &[]ContentItem{}
+		return []ContentItem{}
 	}
 	return fbp.annotation
 }
 
-func (fbp *FBParser) GetContent() *[]ContentItem {
+func (fbp *FBParser) GetContent() []ContentItem {
 	return fbp.bookcontent
 }
 
 func (fbp *FBParser) GetContentCount() int {
-	return len(*fbp.bookcontent)
+	return len(fbp.bookcontent)
 }
 
-func (fbp *FBParser) GetChapters() *[]Chapter {
+func (fbp *FBParser) GetChapters() []Chapter {
 	return fbp.chapters
 }
 
@@ -91,7 +91,6 @@ func (fbp *FBParser) GetGenresLine() string {
 }
 
 func (fbp *FBParser) ParseFB() error {
-	log.Println("Parse", fbp.bookpath)
 	xmlFile, err := os.Open(fbp.bookpath)
 	if err != nil {
 		log.Println("Error open file", fbp.bookpath, err)
@@ -107,13 +106,13 @@ func (fbp *FBParser) ParseFB() error {
 		err = fbp.parseNotes()
 	}
 	if err == nil {
-		fbp.xmlBinares = &fbp.xmlBook.Binarys
-		for _, b := range *fbp.xmlBinares {
+		fbp.xmlBinares = fbp.xmlBook.Binarys
+		for _, b := range fbp.xmlBinares {
 			b.Binary = ""
 		}
 		fbp.annotation = fbp.parseContent(fbp.xmlBook.Description.TitleInfo.Annotation.Content)
 		fbp.description = &fbp.xmlBook.Description.TitleInfo
-		fbp.chapters = &[]Chapter{}
+		fbp.chapters = []Chapter{}
 		for _, b := range fbp.xmlBook.Bodys {
 			if b.Type != "notes" {
 				fbp.bookcontent = fbp.parseContent(b.Content)

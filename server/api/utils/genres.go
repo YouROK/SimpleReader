@@ -57,7 +57,7 @@ func GetGenres(Genre []string) []string {
 		case "thriller":
 			gen[i] = "Триллер"
 		case "detective":
-			gen[i] = "Детектив (не относящийся в прочие категории)."
+			gen[i] = "Детектив"
 		case "prose_classic":
 			gen[i] = "Классическая проза"
 		case "prose_history":
@@ -93,7 +93,7 @@ func GetGenres(Genre []string) []string {
 		case "adv_animal":
 			gen[i] = "Природа и животные"
 		case "adventure":
-			gen[i] = "Прочие приключения (то, что не вошло в другие категории)"
+			gen[i] = "Прочие приключения"
 		case "child_tale":
 			gen[i] = "Сказка"
 		case "child_verse":
@@ -109,7 +109,7 @@ func GetGenres(Genre []string) []string {
 		case "child_education":
 			gen[i] = "Детская образовательная литература"
 		case "children":
-			gen[i] = "Прочая детская литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая детская литература"
 		case "poetry":
 			gen[i] = "Поэзия"
 		case "dramaturgy":
@@ -125,7 +125,7 @@ func GetGenres(Genre []string) []string {
 		case "antique_myths":
 			gen[i] = "Мифы. Легенды. Эпос"
 		case "antique":
-			gen[i] = "Прочая старинная литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая старинная литература"
 		case "sci_history":
 			gen[i] = "История"
 		case "sci_psychology":
@@ -157,13 +157,13 @@ func GetGenres(Genre []string) []string {
 		case "sci_tech":
 			gen[i] = "Технические науки"
 		case "science":
-			gen[i] = "Прочая научная литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая научная литература"
 		case "comp_www":
 			gen[i] = "Интернет"
 		case "comp_programming":
 			gen[i] = "Программирование"
 		case "comp_hard":
-			gen[i] = "Компьютерное \" железо\" (аппаратное обеспечение)"
+			gen[i] = "Компьютерное \"железо\" (аппаратное обеспечение)"
 		case "comp_soft":
 			gen[i] = "Программы"
 		case "comp_db":
@@ -171,7 +171,7 @@ func GetGenres(Genre []string) []string {
 		case "comp_osnet":
 			gen[i] = "ОС и Сети"
 		case "computers":
-			gen[i] = "Прочая околокомпьтерная литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая околокомпьтерная литература"
 		case "ref_encyc":
 			gen[i] = "Энциклопедии"
 		case "ref_dict":
@@ -181,7 +181,7 @@ func GetGenres(Genre []string) []string {
 		case "ref_guide":
 			gen[i] = "Руководства"
 		case "reference":
-			gen[i] = "Прочая справочная литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая справочная литература"
 		case "nonf_biography":
 			gen[i] = "Биографии и Мемуары"
 		case "nonf_publicism":
@@ -191,7 +191,7 @@ func GetGenres(Genre []string) []string {
 		case "design":
 			gen[i] = "Искусство и Дизайн"
 		case "nonfiction":
-			gen[i] = "Прочая документальная литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая документальная литература"
 		case "religion_rel":
 			gen[i] = "Религия"
 		case "religion_esoterics":
@@ -199,7 +199,7 @@ func GetGenres(Genre []string) []string {
 		case "religion_self":
 			gen[i] = "Самосовершенствование"
 		case "religion":
-			gen[i] = "Прочая религионая литература (то, что не вошло в другие категории)"
+			gen[i] = "Прочая религионая литература"
 		case "humor_anecdote":
 			gen[i] = "Анекдоты"
 		case "humor_prose":
@@ -207,7 +207,7 @@ func GetGenres(Genre []string) []string {
 		case "humor_verse":
 			gen[i] = "Юмористические стихи"
 		case "humor":
-			gen[i] = "Прочий юмор (то, что не вошло в другие категории)"
+			gen[i] = "Прочий юмор"
 		case "home_cooking":
 			gen[i] = "Кулинария"
 		case "home_pets":
@@ -225,9 +225,49 @@ func GetGenres(Genre []string) []string {
 		case "home_sport":
 			gen[i] = "Спорт"
 		case "home_sex":
-			gen[i] = "Эротика, Секс"
+			gen[i] = "Эротика Секс"
 		case "home":
-			gen[i] = "Прочиее домоводство (то, что не вошло в другие категории)"
+			gen[i] = "Прочиее домоводство"
+		case "popadanec":
+			gen[i] = "Попаданец"
+		case "vampire_book":
+			gen[i] = "О вампирах"
+		case "love_sf":
+			gen[i] = "Любовно-фантастический роман"
+		case "modern_tale":
+			gen[i] = "Современная сказка"
+		case "foreign_psychology":
+			gen[i] = "Зарубежная психология"
+		case "psy_social":
+			gen[i] = "Психосоциальное"
+		case "psy_theraphy":
+			gen[i] = "Психотерапия и консультирование "
+		case "psy_generic":
+			gen[i] = "Общая психология"
+		case "dragon_fantasy":
+			gen[i] = "О драконах"
+		case "sf_postapocalyptic":
+			gen[i] = "Постапокалипсис"
+		case "fantasy_fight":
+			gen[i] = "Боевое фэнтези"
+		case "magician_book":
+			gen[i] = "Магическое фэнтези"
+		case "sf_technofantasy":
+			gen[i] = "Технофэнтези"
+		case "historical_fantasy":
+			gen[i] = "Историческое фэнтези"
+		case "unfinished":
+			gen[i] = "Недописанное"
+		case "romance_fantasy":
+			gen[i] = "Романтическое фэнтези"
+		case "psy_personal":
+			gen[i] = "Личностный рост"
+		case "sf_fantasy_city":
+			gen[i] = "Городское фэнтези"
+		case "network_literature":
+			gen[i] = "Самиздат сетевая литература"
+		case "other":
+			gen[i] = "Разное"
 		default:
 			gen[i] = k
 		}

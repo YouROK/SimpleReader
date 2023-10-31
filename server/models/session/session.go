@@ -26,6 +26,9 @@ func NewSession(uid, ip string) *Session {
 }
 
 func (s *Session) SetUser(u *user.User) {
-	s.User = nil
 	s.User = u
+}
+
+func (s *Session) IsLogin() bool {
+	return s.Login == 1
 }

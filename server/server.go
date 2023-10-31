@@ -14,21 +14,20 @@ func Start() {
 	go utils.MakeCover()
 
 	storage.NewStorage("db/storage")
+	go ParseDir()
 
 	r := gin.Default()
 
+	r.MaxMultipartMemory = 32 << 20
+
 	r.Use(gin.Recovery())
 	r.Use(storage.Sessions())
-
-	r.GET("/back.jpg", func(c *gin.Context) {
-		c.File("public/img/back.jpg")
-	})
 
 	r.Static("/js", "public/js")
 	r.Static("/css", "public/css")
 	r.Static("/img", "public/img")
 
-	r.LoadHTMLGlob("public/views/*/*.gohtml")
+	r.LoadHTMLGlob("public/views/*.gohtml")
 
 	api.SetRoutes(r)
 

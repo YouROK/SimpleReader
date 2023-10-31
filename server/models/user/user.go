@@ -28,26 +28,26 @@ type User struct {
 	Email        string
 	Avatar       string
 	Role         int
-	ReadingBooks map[string]BookInfo
+	ReadingBooks map[string]*BookInfo
 	Style        *Style
 }
 
 func NewUser() *User {
 	usr := &User{}
-	usr.ReadingBooks = make(map[string]BookInfo)
+	usr.ReadingBooks = make(map[string]*BookInfo)
 	usr.Style = NewStyle()
 	return usr
 }
 
-func (u *User) GetBookInfo(bookHash string) BookInfo {
+func (u *User) GetBookInfo(bookHash string) *BookInfo {
 	bookInfo, ok := u.ReadingBooks[bookHash]
 	if !ok {
-		bookInfo = BookInfo{BookHash: bookHash, LastRead: time.Now().UTC()}
+		bookInfo = &BookInfo{BookHash: bookHash, LastRead: time.Now().UTC()}
 	}
 	return bookInfo
 }
 
-func (u *User) SetBookInfo(binfo BookInfo) {
+func (u *User) SetBookInfo(binfo *BookInfo) {
 	u.ReadingBooks[binfo.BookHash] = binfo
 }
 

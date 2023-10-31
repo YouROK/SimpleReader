@@ -39,7 +39,7 @@ type XMLTitleInfo struct {
 	Sequence   XMLSequence `xml:"sequence"`
 }
 
-func (ti *XMLTitleInfo) GetGenresStr() string {
+func (ti *XMLTitleInfo) GetGenresLine() string {
 	return utils.LineGenres(ti.Genre)
 }
 

@@ -35,6 +35,10 @@ func GetSessionStorage() *SessionStorage {
 	return GetStorage().GetSessionStorage()
 }
 
+func GetUserStorage() *UserStorage {
+	return GetStorage().GetUserStorage()
+}
+
 func GetSession(c *gin.Context) *session.Session {
 	return GetStorage().GetSessionStorage().GetSession(c)
 }
@@ -76,6 +80,10 @@ func (s *Storage) GetSessionStorage() *SessionStorage {
 		s.sesStorage = newSessionStorage()
 	}
 	return s.sesStorage
+}
+
+func (s *Storage) GetPath() string {
+	return s.path
 }
 
 func (s *Storage) Exit() {

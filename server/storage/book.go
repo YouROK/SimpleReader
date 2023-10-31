@@ -9,10 +9,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
+	"log"
 	"mime/multipart"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 )
 
@@ -37,11 +40,11 @@ func (bs *BookStorage) GetPath() string {
 }
 
 func (bs *BookStorage) GetBooks() []string {
-	dirs, err := ioutil.ReadDir(bs.path)
+	dirs, err := os.ReadDir(bs.path)
 	var ret []string
 	if err == nil {
 		for _, d := range dirs {
-			if d.Name() != ".gitignore" {
+			if d.IsDir() && d.Name() != ".gitignore" {
 				ret = append(ret, d.Name())
 			}
 		}
@@ -105,52 +108,74 @@ func (bs *BookStorage) BookExists(hash string) bool {
 
 //save book
 
-func ExtractZip(breader *bytes.Reader) ([]byte, error) {
+func ExtractZip(breader *bytes.Reader) ([][]byte, error) {
 	zf, err := zip.NewReader(breader, int64(breader.Len()))
 	if err != nil {
 		return nil, err
 	}
+	var books [][]byte
 	for _, v := range zf.File {
 		if strings.ToLower(path.Ext(v.Name)) == ".fb2" {
 			r, err := v.Open()
 			if err != nil {
 				return nil, err
 			}
-			defer r.Close()
-			return ioutil.ReadAll(r)
+			buf, err := io.ReadAll(r)
+			r.Close()
+			if err != nil {
+				return nil, err
+			}
+			books = append(books, buf)
 		}
 	}
-	return nil, errors.New("Not found fb2 in zip file")
+	if len(books) == 0 {
+		return nil, errors.New("Not found fb2 in zip file")
+	}
+	return books, err
 }
 
-func (bs *BookStorage) WriteBook(file *multipart.FileHeader) (string, error) {
+func (bs *BookStorage) WriteBook(file *multipart.FileHeader) ([]string, error) {
 	Filename := file.Filename
 
 	fileTmp, err := file.Open()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer fileTmp.Close()
-	buf, err := ioutil.ReadAll(fileTmp)
+	buf, err := io.ReadAll(fileTmp)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	if strings.ToLower(path.Ext(Filename)) == ".zip" {
-		buf, err = ExtractZip(bytes.NewReader(buf))
+	var bufs [][]byte
+
+	if strings.ToLower(filepath.Ext(Filename)) == ".zip" {
+		bufs, err = ExtractZip(bytes.NewReader(buf))
 		if err != nil {
-			return "", err
+			return nil, err
+		}
+	} else {
+		bufs = [][]byte{buf}
+	}
+	if len(bufs) == 0 {
+		return nil, errors.New("File is empty or error open file")
+	}
+
+	var hashs []string
+	for _, b := range bufs {
+		hash, e := bs.saveFb2File(b)
+		if e != nil {
+			log.Println("Error save book:", e)
+			err = e
+		} else {
+			hashs = append(hashs, hash)
 		}
 	}
-	if len(buf) == 0 {
-		return "", errors.New("File is empty or error open file")
-	}
-
-	return bs.saveFb2File(&buf)
+	return hashs, err
 }
 
-func (bs *BookStorage) saveFb2File(b *[]byte) (string, error) {
-	hash := utils.Md5HashBytes(*b)
+func (bs *BookStorage) saveFb2File(b []byte) (string, error) {
+	hash := utils.Md5HashBytes(b)
 	bookpath := path.Join(bs.GetPath(), hash)
 	bookfile := path.Join(bookpath, "book.fb2")
 	os.MkdirAll(bookpath, 0755)
@@ -159,7 +184,7 @@ func (bs *BookStorage) saveFb2File(b *[]byte) (string, error) {
 		os.RemoveAll(bookpath)
 		return "", err
 	}
-	fb2File.Write(*b)
+	fb2File.Write(b)
 	fb2File.Close()
 
 	fb2 := bs.GetBook(hash)
@@ -191,7 +216,7 @@ func (bs *BookStorage) saveFb2File(b *[]byte) (string, error) {
 
 	//save img
 	bins := fb2.GetImages()
-	for _, i := range *bins {
+	for _, i := range bins {
 		imgF, err := os.Create(path.Join(bookpath, i.Id))
 		if err == nil {
 			buf, err := base64.StdEncoding.DecodeString(i.Binary)
