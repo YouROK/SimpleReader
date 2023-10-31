@@ -1,8 +1,9 @@
 module SimpleReader
 
-go 1.17
+go 1.21
 
 require (
+	github.com/agnivade/levenshtein v1.1.1
 	github.com/dchest/captcha v1.0.0
 	github.com/disintegration/imaging v1.6.2
 	github.com/gin-gonic/gin v1.9.1
