@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <meta name="description" content="Читать онлайн книгу {{.Book.GetDescription.Author.FirstName}} {{.Book.GetDescription.Author.MiddleName}} {{.Book.GetDescription.Author.LastName}}, {{.Book.GetDescription.BookTitle}}">
+    <meta name="keywords" content="{{.Book.GetDescription.Keywords}}" />
+    <title>{{.Book.GetDescription.BookTitle}}</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml" .}}
+</head>
+<body>
+
+<style>
+     .content_desc > .page__background {
+        background: url("/back.png") no-repeat;
+        background-position: center center;
+    }
+     .annotation > * {
+         line-height: 1.3;
+     }
+</style>
+
+<ons-page>
+    <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page class="menu">
+                <ons-list>
+                    {{if not .Session.IsLogin}}
+                        <ons-list-item tappable onclick="location.href='/login'">
+                            Войти
+                        </ons-list-item>
+                    {{end}}
+                    {{if ne (len .Book.GetChapters) 0}}
+                        <p style="margin: 20px"><b>Главы</b></p>
+                        {{range .Book.GetChapters}}
+                            <ons-list-item {{if $.Session.IsLogin}}tappable onclick="location.href='/book/{{$.Book.GetHash}}/read/{{.Page}}'"{{end}}>
+                                - {{.Name}}
+                            </ons-list-item>
+                        {{end}}
+                    {{end}}
+                </ons-list>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-content>
+            <ons-page class="content_desc">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button onclick="document.getElementById('menu').open()">
+                            <ons-icon icon="ion-ios-menu, material:md-menu"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="center">
+                        {{.Book.GetDescription.BookTitle}}
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button onclick="location.href='/'">
+                            <ons-icon icon="ion-ios-home, material:md-home"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <ons-card style="max-width: 900px;margin: 10px auto">
+                    <img style="display: block; margin-left: auto; margin-right: auto;border-radius: 5%;" src="/cover/{{.Book.GetHash}}" width="250" />
+                    <h2><p>{{.Book.GetDescription.BookTitle}}</p></h2>
+                    <h3><p>{{.Book.GetDescription.Author.FirstName}} {{.Book.GetDescription.Author.MiddleName}} {{.Book.GetDescription.Author.LastName}}</p></h3>
+                    <h4><p>{{.Book.GetDescription.Sequence.Name}} {{.Book.GetDescription.Sequence.Number}}</p></h4>
+                    <small><i>{{.Book.GetGenresLine}}</i></small>
+
+                    <div style="margin-bottom: 10px;" class="annotation">
+                    {{range .Book.GetAnnotation}}
+                        {{.Text}}
+                    {{end}}
+
+                    {{range .Book.GetAnnotation}}
+                        {{.Note}}
+                    {{end}}
+                    </div>
+
+                    {{if .Session.IsLogin}}
+                    <div style="display: flex;">
+                        <ons-button style="margin-right: 5px" modifier="large" onclick="window.location='/book/{{.Book.GetHash}}/read/0'">Читать с начала</ons-button>
+                        <ons-button style="margin-left: 5px" modifier="large" onclick="window.location='/book/{{.Book.GetHash}}/read'">Продолжить</ons-button>
+                    </div>
+                    {{else}}
+                        <ons-button modifier="large" onclick="window.location='/login'">Войдите чтобы читать</ons-button>
+                    {{end}}
+
+                </ons-card>
+            </ons-page>
+        </ons-splitter-content>
+    </ons-splitter>
+</ons-page>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+<ons-card onclick="location.href='/book/{{.Hash}}'">
+    <img style="float:left; margin-right: 10px; border-radius: 5%;" src="/cover/{{.Hash}}" width="86" height="130" />
+    <div class="content">
+        <div class="title"><b>{{.BookTitle}}</b><br/>
+            {{.Sequence.Name}} {{.Sequence.Number}}</div>
+        <p>{{.Author.LastName}} {{.Author.MiddleName}} {{.Author.FirstName}}</p>
+        <p><small><i>{{.GetGenresLine}}</i></small></p>
+        <div style="clear:both;"></div>
+    </div>
+</ons-card>

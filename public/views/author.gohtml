@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>{{.Author.LastName}} {{.Author.MiddleName}} {{.Author.FirstName}}</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml"}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home, material:md-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            {{.Author.LastName}} {{.Author.MiddleName}} {{.Author.FirstName}}
+        </div>
+        <div class="right">
+            <ons-toolbar-button onclick="location.href='/search'">
+                <ons-icon icon="ion-ios-search"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-card style="max-width: 900px;margin: 10px auto">
+        {{range .Books}}
+            {{ template "bookcard.gohtml" . }}
+        {{end}}
+    </ons-card>
+</ons-page>
+</body>
+</html>

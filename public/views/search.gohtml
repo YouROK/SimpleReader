@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>Поиск</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml"}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            Поиск
+        </div>
+        <div class="right">
+            <ons-toolbar-button onclick="location.href='/authors'">
+                <ons-icon icon="ion-ios-person"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-card style="max-width: 900px;margin: 10px auto">
+        <p>
+            <ons-input style="width: 90%" id="search" modifier="underbar" placeholder="Поиск" float></ons-input>
+            <ons-button id="btnSearch" onclick='searchRequest()'>
+                <ons-icon id="btnIcon" icon="ion-ios-search"></ons-icon>
+            </ons-button>
+        </p>
+
+        <div style="clear:both;" id="suggestions"></div>
+    </ons-card>
+</ons-page>
+<script>
+    function searchRequest() {
+        const query = document.querySelector('#search').value;
+        if (query.length<3){
+            ons.notification.toast("Запрос должен быть больше 3 символов", {timeout: 2000});
+            return;
+        }
+
+        var sugList = $("#suggestions");
+        if (sugList) {
+            sugList.html("");
+            document.querySelector('#btnSearch').disabled=true;
+            document.querySelector('#btnIcon').setAttribute("icon","md-spinner");
+            document.querySelector('#btnIcon').setAttribute("spin","");
+            var request = $.ajax({
+                type: 'POST',
+                url: '/search',
+                data: query,
+                contentType: "text/plain; charset=UTF-8",
+                dataType: "text"
+            });
+            request.done(function (data) {
+                sugList.html(data);
+            });
+            request.always(function (){
+                document.querySelector('#btnIcon').removeAttribute("spin");
+                document.querySelector('#btnIcon').setAttribute("icon","ion-ios-search");
+                document.querySelector('#btnSearch').disabled=false;
+            });
+        }
+    }
+    document.getElementById("search").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("btnSearch").click();
+        }
+    });
+</script>
+</body>
+</html>

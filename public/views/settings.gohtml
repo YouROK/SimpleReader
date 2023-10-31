@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>Настройки</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml"}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home, material:md-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            Настройки
+        </div>
+        <div class="right">
+            <ons-toolbar-button onclick="location.href='/lastbook'">
+                <ons-icon icon="ion-ios-book"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-card style="max-width: 900px;margin: 10px auto">
+        <ons-list>
+            <ons-list-header>Цветовая тема</ons-list-header>
+            <ons-list-item>
+                <div class="center">
+                    Светлая тема
+                </div>
+                <div class="right">
+                    <ons-switch id="dayThemeSwch" onclick="setDayTheme()" {{if eq .User.Style.DayTheme true}}checked{{end}} ></ons-switch>
+                </div>
+            </ons-list-item>
+
+            <ons-list-header>Перелистывание страниц</ons-list-header>
+            <ons-list-item tappable>
+                <label class="left">
+                    <ons-radio onclick="setEffectSlide(0)" name="color" input-id="radio-1" {{if eq .User.Style.PageSlideEffect 0}} checked{{end}}></ons-radio>
+                </label>
+                <label for="radio-1" class="center">
+                    Смещение
+                </label>
+            </ons-list-item>
+            <ons-list-item tappable>
+                <label class="left">
+                    <ons-radio onclick="setEffectSlide(1)" name="color" input-id="radio-2" {{if eq .User.Style.PageSlideEffect 1}} checked{{end}}></ons-radio>
+                </label>
+                <label for="radio-2" class="center">
+                    Исчезание
+                </label>
+            </ons-list-item>
+
+            <ons-list-header>Размер текста</ons-list-header>
+            <ons-list-item>
+                <ons-row>
+                    <ons-col width="40px" style="text-align: left; line-height: 31px;">
+                        <label id="textSizeTxt"></label>
+                    </ons-col>
+                    <ons-col>
+                        <ons-range id="textSizeRange" min="1" max="500" style="width: 100%;" value="0" onchange="setTextSize(this.value/100);"></ons-range>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+
+            <ons-list-header>Яркость текста</ons-list-header>
+            <ons-list-item>
+                <ons-row>
+                    <ons-col width="40px" style="text-align: left; line-height: 31px;">
+                        <label id="textColTxt"></label>
+                    </ons-col>
+                    <ons-col>
+                        <ons-range id="textColRange" min="0" max="255" style="width: 100%;" value="0" onchange="setColorBright(this.value);"></ons-range>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+
+            <ons-list-header>Отступ красной строки</ons-list-header>
+            <ons-list-item>
+                <ons-row>
+                    <ons-col width="40px" style="text-align: left; line-height: 31px;">
+                        <label id="textIdentTxt"></label>
+                    </ons-col>
+                    <ons-col>
+                        <ons-range id="textIdentRange" min="1" max="300" style="width: 100%;" value="25" onchange="setTextIdent(this.value/100);"></ons-range>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+
+            <ons-list-header>Расстояние между строк</ons-list-header>
+            <ons-list-item>
+                <ons-row>
+                    <ons-col width="40px" style="text-align: left; line-height: 31px;">
+                        <label id="textParIdentTxt"></label>
+                    </ons-col>
+                    <ons-col>
+                        <ons-range id="textParIdentRange" min="1" max="200" style="width: 100%;" value="25" onchange="setParIdent(this.value/100);"></ons-range>
+                    </ons-col>
+                </ons-row>
+            </ons-list-item>
+
+            <ons-list-header>Пример текста</ons-list-header>
+            <ons-list-item>
+                <div>
+                    <div id="textColorBrightnessWhite" style="text-shadow:none;background-color: #ffffff">
+                        <p style="margin-top:0;margin-bottom:0.2em;">Пример текста<br>Пример текста</p>
+                    </div>
+                    <div id="textColorBrightnessBlack" style="text-shadow:none;background-color: #000000">
+                        <p style="margin-top:0;margin-bottom:0.2em;">Пример текста<br>Пример текста</p>
+                    </div>
+                </div>
+            </ons-list-item>
+
+            <ons-list-header>Шрифт</ons-list-header>
+            <ons-list-item tappable onclick='setFont()'>По умолчанию</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Arial, Helvetica, sans-serif"}})'  style="font-family: Arial, Helvetica, sans-serif;">Arial, Helvetica, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Arial Black', Gadget, sans-serif"}})'  style="font-family: 'Arial Black', Gadget, sans-serif;">Arial Black, Gadget, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Bookman Old Style', serif"}})'  style="font-family: 'Bookman Old Style', serif;">Bookman Old Style, serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Comic Sans MS', cursive"}})'  style="font-family: 'Comic Sans MS', cursive;">Comic Sans MS, cursive</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Courier, monospace"}})'  style="font-family: Courier, monospace;">Courier, monospace</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Courier New', Courier, monospace"}})'  style="font-family: 'Courier New', Courier, monospace;">Courier New, Courier, monospace</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Garamond, serif"}})'  style="font-family: Garamond, serif;">Garamond, serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Georgia, serif"}})'  style="font-family: Georgia, serif;">Georgia, serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Impact, Charcoal, sans-serif"}})'  style="font-family: Impact, Charcoal, sans-serif;">Impact, Charcoal, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Lucida Console', Monaco, monospace"}})'  style="font-family: 'Lucida Console', Monaco, monospace;">Lucida Console, Monaco, monospace</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Lucida Sans Unicode', 'Lucida Grande', sans-serif"}})'  style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;">Lucida Sans Unicode, Lucida Grande, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'MS Sans Serif', Geneva, sans-serif"}})'  style="font-family: 'MS Sans Serif', Geneva, sans-serif;">MS Sans Serif, Geneva, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'MS Serif', 'New York', sans-serif"}})'  style="font-family: 'MS Serif', 'New York', sans-serif;">MS Serif, New York, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Palatino Linotype', 'Book Antiqua', Palatino, serif"}})'  style="font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;">Palatino Linotype, Book Antiqua, Palatino, serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Symbol, sans-serif"}})'  style="font-family: Symbol, sans-serif;">Symbol, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Tahoma, Geneva, sans-serif"}})'  style="font-family: Tahoma, Geneva, sans-serif;">Tahoma, Geneva, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Times New Roman', Times, serif"}})'  style="font-family: 'Times New Roman', Times, serif;">Times New Roman, Times, serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"'Trebuchet MS', Helvetica, sans-serif"}})'  style="font-family: 'Trebuchet MS', Helvetica, sans-serif;">Trebuchet MS, Helvetica, sans-serif</ons-list-item>
+            <ons-list-item tappable onclick='setFont({{"Verdana, Geneva, sans-serif"}})'  style="font-family: Verdana, Geneva, sans-serif;">Verdana, Geneva, sans-serif</ons-list-item>
+
+            <ons-list-header></ons-list-header>
+            <ons-list-item tappable onclick="saveTheme()">Сохранить</ons-list-item>
+        </ons-list>
+    </ons-card>
+</ons-page>
+
+<script>
+    var PageSlideEffect = {{.User.Style.PageSlideEffect}};
+    var TextSize = {{.User.Style.TextSize}};
+    var TextIndent = {{.User.Style.TextIndent}};
+    var ParagraphIndent = {{.User.Style.ParagraphIndent}};
+    var TextBright = {{.User.Style.TextBright}};
+    var DayTheme = {{.User.Style.DayTheme}};
+    var FontName = {{.User.Style.FontName}};
+
+    $(document ).ready(function(){
+        setTextIdent(TextIndent);
+        setTextSize(TextSize);
+        setParIdent(ParagraphIndent);
+        setColorBright(TextBright);
+        setDayTheme(DayTheme);
+        setEffectSlide(PageSlideEffect);
+        setFont(FontName);
+
+        $("#textSizeRange").val(TextSize*100);
+        $("#textIdentRange").val(TextIndent*100);
+        $("#textParIdentRange").val(ParagraphIndent*100);
+        $("#textColRange").val(TextBright);
+    })
+
+    function setFont(val){
+        FontName = val;
+        if (!val){
+            $('#textColorBrightnessWhite').css('font-family','');
+            $('#textColorBrightnessBlack').css('font-family','');
+        }else{
+            $('#textColorBrightnessWhite').css('font-family',val);
+            $('#textColorBrightnessBlack').css('font-family',val);
+        }
+        // $("#fontslist").collapsible('collapse');
+    }
+
+    function setEffectSlide(val){
+        PageSlideEffect = val;
+    }
+
+    function setTextSize(val){
+        TextSize = val;
+        $('#textColorBrightnessWhite').css('font-size', val+'em');
+        $('#textColorBrightnessBlack').css('font-size', val+'em');
+        $('#textSizeTxt').text(val);
+    }
+
+    function setTextIdent(val){
+        TextIndent = val;
+        $('#textColorBrightnessWhite' ).css('text-indent', val+'em');
+        $('#textColorBrightnessBlack' ).css('text-indent', val+'em');
+        $('#textIdentTxt').text(val);
+    }
+
+    function setParIdent(val){
+        ParagraphIndent = val;
+        $('#textColorBrightnessWhite p' ).css('line-height', val+'em');
+        $('#textColorBrightnessBlack p' ).css('line-height', val+'em');
+        $('#textParIdentTxt').text(val);
+    }
+
+    function setColorBright(clr){
+        var bclr = 255 - clr;
+        TextBright = Number(clr);
+        $('#textColorBrightnessWhite').css({color: 'rgb(' + clr + ',' + clr + ',' + clr + ')'} );
+        $('#textColorBrightnessBlack').css({color: 'rgb(' + bclr + ',' + bclr + ',' + bclr + ')'} );
+        $('#textColTxt').text(Math.round((255-clr)/255*100));
+    }
+
+    function setDayTheme(){
+        sw = document.getElementById('dayThemeSwch');
+        val = sw.checked;
+        if (val)
+            DayTheme = true;
+        else
+            DayTheme = false;
+    }
+
+    function saveTheme(){
+
+        var json = {
+            PageSlideEffect:PageSlideEffect,
+            TextSize:TextSize,
+            TextIndent:TextIndent,
+            ParagraphIndent:ParagraphIndent,
+            TextBright:TextBright,
+            DayTheme:DayTheme,
+            FontName:FontName
+        };
+
+        var request = $.ajax({
+            type: 'POST',
+            url: "/settings",
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            dataType: 'json'
+        });
+
+        request.always(function (data,status){
+            if (data && data.Msg)
+                ons.notification.toast(data.Msg,{timeout: 5000});
+        });
+    }
+</script>
+</body>
+</html>

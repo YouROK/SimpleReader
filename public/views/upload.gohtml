@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>Загрзка Книг</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml" .}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+<style>
+    .progress-bar{
+        height: 10px;
+    }
+</style>
+
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home, material:md-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            Загрзка Книг
+        </div>
+    </ons-toolbar>
+
+    <ons-card style="max-width: 900px;margin: 10px auto">
+        <form enctype="multipart/form-data" action="/upload" method="post" id="formFile">
+            <p>
+                <label>Выберите файл или архив с книгой в формате fb2</label>
+            </p>
+            <p>
+                <label class="button">
+                    <input style="display: none" id="btnFile" accept=".fb2,.zip" name="fb2files" type="file" onchange="changeBtnFile()" multiple/>
+                    Выбрать файлы
+                </label>
+                <ons-button id="btnUpload" type="button">Загрузить</ons-button>
+            </p>
+        </form>
+        <p>
+            <ons-progress-bar id="progress_bar" style="min-height: 10px" value="0"></ons-progress-bar>
+        </p>
+        <div id="filescount"></div>
+
+    </ons-card>
+</ons-page>
+<script>
+    $(window).ready(changeBtnFile());
+    function changeBtnFile() {
+        $('#filescount' ).empty();
+        var files = $('#btnFile')[0].files;
+        var html = '<table cellspacing="5px" cellpadding="5px" width="100%">';
+        for (var i = 0; i < files.length; i++)
+            html += '<tr><td>'+files[i].name+'</td><td>'+bytesToSize(files[i].size)+'</td></tr>'
+        html += '</table>';
+        $('#filescount' ).html(html);
+    }
+
+    function bytesToSize ( bytes) {
+        var sizes =[ 'Bytes', 'KB', 'MB', 'GB', 'TB' ] ;
+        var posttxt = 0 ;
+        if ( bytes == 0 ) return 'n/a' ;
+        if ( bytes < 1024 )
+            return Number ( bytes ) + " " + sizes[ posttxt ] ;
+        while ( bytes >= 1024 ){
+            posttxt ++ ;
+            bytes = bytes / 1024 ;
+        }
+        return bytes.toPrecision (4) + " " + sizes[ posttxt ] ;
+    }
+
+    $('#btnUpload').click(function(){
+        var formData = new FormData(document.getElementById("formFile"));
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            xhr: function() {
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){myXhr.upload.addEventListener('progress',progressHandlingFunction, false);}
+                return myXhr;
+            },
+            beforeSend: beforeSendHandler,
+            complete: completeHandler,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        } );
+    });
+
+    function completeHandler(e, status) {
+        $('#progress_bar').css('width', "0%");
+        if(status === "error"){
+            if (!e.responseText)
+                ons.notification.toast("Произошла ошибка при загрузке",{timeout: 5000});
+            else
+                ons.notification.toast("Произошла ошибка при загрузке: "+e.responseText ,{timeout: 5000});
+        }
+        if(status === "success"){
+            ons.notification.toast("Загружено книг: "+e.responseJSON.length,{timeout: 5000});
+            $('#filescount').empty();
+        }
+    }
+
+    function beforeSendHandler(e){
+        $('#progress_bar').css('width', "0%");
+    }
+
+    function progressHandlingFunction(e){
+        if(e.lengthComputable){
+            $('#progress_bar').css('width', Math.round(100 * e.loaded / e.total) +"%");
+            $('#percent').text(Math.round(100 * e.loaded / e.total) +" %");
+        }
+    }
+</script>
+</body>
+</html>

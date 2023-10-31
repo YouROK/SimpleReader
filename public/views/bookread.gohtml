@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>{{.BookFb.GetDescription.BookTitle}}</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    {{if .Session.User.Style.DayTheme}}
+        <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    {{else}}
+        <link rel="stylesheet" href="/css/dark-onsen-css-components.min.css">
+    {{end}}
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml" .}}
+</head>
+<body>
+<script src="/js/jstorage.min.js"></script>
+<script src="/js/pageSwipe.js"></script>
+<script src="/js/bookPage.js"></script>
+
+<style>
+    {{$color := .Session.User.Style.GetColor}}
+    {{$BG := .Session.User.Style.GetBackGround}}
+    .canvas p, .paragraph {
+        text-indent: {{.Session.User.Style.TextIndent}}em;
+        color: rgb({{$color}},{{$color}},{{$color}});
+        font-size: {{.Session.User.Style.TextSize}}em;
+        margin-top: 0;
+        margin-bottom: 0.2em;
+        line-height: {{.Session.User.Style.ParagraphIndent}}em;
+        font-family: {{.Session.User.Style.FontName}};
+    }
+
+    .canvas {
+        background: {{$BG}} !important;
+        padding-left: 3px;
+    }
+    #footer {
+        position:fixed;
+        bottom:0;
+        width:100%;
+        height:3px;
+    }
+</style>
+<ons-page>
+    <ons-list>
+
+    <ons-row id="header">
+        <ons-col width="35px" style="margin: auto;text-align: center">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home"></ons-icon>
+            </ons-toolbar-button>
+        </ons-col>
+        <ons-col style="margin: auto;text-align: center">
+            <div style="color: rgb({{$color}},{{$color}},{{$color}});">{{.BookFb.GetDescription.BookTitle}}</div>
+        </ons-col>
+        <ons-col width="35px" style="margin: auto;text-align: center">
+            <ons-toolbar-button onclick="location.href='/settings'">
+                <ons-icon icon="ion-ios-settings"></ons-icon>
+            </ons-toolbar-button>
+        </ons-col>
+    </ons-row>
+    <div id="postheader" style="position: fixed"></div>
+    <div style="max-width: 900px;margin: auto auto;">
+        <div id="content" style="height: 100%">
+            <div class="background">
+                <div id="canvas">
+                    <div id='currentPage' class="canvas"></div>
+                    <div id='nextPage' class="canvas" style='display:none;'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </ons-list>
+    <div id="footer">
+        <div style="height: 3px; background-color: silver; width: 100%;">
+            <div id="progress_bar" style="height: 100%; background-color: #436f8c ; width: 0;"></div>
+        </div>
+    </div>
+</ons-page>
+<script>
+    var bookId = {{.BookInfo.BookHash}};
+    var pageRead = {{.BookInfo.LastReadPage}};
+    var pageCount = {{.BookFb.GetContentCount}};
+    var effect = {{.Session.User.Style.PageSlideEffect}};
+    var SetPage = {{.BookInfo.SetPage}}
+    var book = null;
+    var menuShow = false;
+    var isLogin = {{eq .Session.Login 1}};
+
+    $(window).ready(function(){
+        initSwipe(NextPage,PrevPage);
+        book = getBook(bookId);
+        book.count = pageCount;
+        if(pageRead > book.readpage || SetPage)
+            book.readpage = pageRead;
+        loadReadPages(book.readpage, function(lastline){
+            $("#currentPage").show();
+            book.nextpage = lastline;
+            loadNextPage(book.nextpage, function(lastline){book.nextend = lastline});
+            setBook(book);
+            showProcent(book.nextpage * 100 / book.count)
+        })
+    })
+
+    $(document).keydown(function(e) {
+        if(e.keyCode===39)
+            NextPage();
+        else if (e.keyCode===37)
+            PrevPage();
+    })
+
+    function NextPage(){
+        if (book.nextpage>=book.count)
+            return;
+        if (!$("#nextPage").html())
+            loadNextPage(book.nextend);
+        if (effect === 1)
+            fadeNext(SetNext);
+        else
+            slideNext(SetNext);
+    }
+
+    function PrevPage(){
+        var prevPage = getLastReadPage(book);
+        if (prevPage === -1)
+            return;
+
+        loadNextPage(prevPage,function(lastline){
+            book.readpage = prevPage;
+            book.nextpage = lastline;
+            if (effect === 1)
+                fadeNext(SetPrev);
+            else
+                slidePrev(SetPrev);
+        })
+    }
+
+    function SetNext(){
+        if (book.nextpage <= book.count){
+            loadNextPage(book.nextend, function(lastline){
+                book.readedpages.push(book.readpage);
+                book.readpage = book.nextpage;
+                book.nextpage = book.nextend;
+                book.nextend = lastline;
+            });
+        }
+        setBook(book);
+        setPage(book);
+    }
+
+    function SetPrev() {
+        last = getLastReadPage(book);
+        if (last !== -1) {
+            if (book.readedpages.length>0)
+                book.readedpages.pop();
+            loadNextPage(book.nextpage, function(lastline){book.nextend = lastline;});
+            setBook(book);
+            setPage(book);
+        }
+    }
+
+    $('#content').attr('unselectable','on').css({
+        '-moz-user-select':'-moz-none',
+        '-moz-user-select':'none',
+        '-o-user-select':'none',
+        '-khtml-user-select':'none',
+        '-webkit-user-select':'none',
+        '-ms-user-select':'none',
+        'user-select':'none'
+    });
+</script>
+</body>
+</html>

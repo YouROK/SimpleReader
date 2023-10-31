@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+	<meta name="description" content="Электронная библиотека">
+	<meta name="keywords" content="книги читать онлайн, книги, читать онлайн, бесплатно, без регистрации, мобильные, fb2, читать fb2" />
+	<title>SimpleReader</title>
+
+	<link rel="stylesheet" href="/css/onsenui.css">
+	<link rel="stylesheet" href="/css/onsen-css-components.min.css">
+	<script src="/js/onsenui.min.js"></script>
+	<script src="/js/jquery.min.js"></script>
+
+	{{template "metrica.gohtml" .}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+	<ons-page>
+		<ons-card style="max-width: 900px;margin: 10px auto">
+			<ons-list modifier="inset">
+				{{if .Session.IsLogin}}<ons-list-item tappable modifier="longdivider" onclick="window.location='/mybooks'">Мои Книги</ons-list-item>{{end}}
+				{{if .Session.IsLogin}}<ons-list-item tappable modifier="longdivider" onclick="window.location='/upload'">Загрузить</ons-list-item>{{end}}
+				{{if .Session.IsLogin}}<ons-list-item tappable modifier="longdivider" onclick="window.location='/settings'">Настройки</ons-list-item>{{end}}
+				<ons-list-item tappable modifier="longdivider" onclick="window.location='/search'">Поиск</ons-list-item>
+				{{if .Session.IsLogin}}<ons-list-item tappable modifier="longdivider" onclick="window.location='/logout'">Выйти</ons-list-item>{{end}}
+				{{if not .Session.IsLogin}}<ons-list-item tappable modifier="longdivider" onclick="location.href='/login'">Войти</ons-list-item>{{end}}
+			</ons-list>
+			<br/>
+			{{range .Books}}
+				{{ template "bookcard.gohtml" . }}
+			{{end}}
+
+		</ons-card>
+	</ons-page>
+</body>
+</html>

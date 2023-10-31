@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <title>Войти</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    <script src="/js/crypt/jsbn.js"></script>
+    <script src="/js/crypt/prng4.js"></script>
+    <script src="/js/crypt/rng.js"></script>
+    <script src="/js/crypt/rsa.js"></script>
+    <script src="/js/crypt/base64.js"></script>
+    <script src="/js/crypt/sha1.js"></script>
+    <script src="/js/authorization.js"></script>
+
+    {{template "metrica.gohtml" .}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+    <ons-page>
+        <ons-card style="max-width: 300px; text-align: center; margin: 200px auto;">
+        <p>
+            <ons-input id="username" placeholder="Имя пользователя" modifier="underbar"></ons-input>
+        </p>
+        <p>
+            <ons-input
+                    id="password"
+                    placeholder="Пароль"
+                    type="password"
+                    modifier="underbar"
+            >
+            </ons-input>
+        </p>
+        <p>
+            <div style="display:none;" id="captchaDiv">
+                <img id="captchaImg"/>
+                <ons-input id="captchaInp" placeholder="Введите капчу" modifier="underbar"></ons-input>
+            </div>
+        </p>
+        <p>
+            <ons-button id="btnLogin" modifier="large" onclick='Login({{.}})'>Войти</ons-button>
+        </p>
+{{/*        <p>*/}}
+{{/*            <ons-button modifier="large" onclick="">Регистрация</ons-button>*/}}
+{{/*        </p>*/}}
+        <p>
+            <ons-button modifier="large" onclick="window.location='/'">На главный экран</ons-button>
+        </p>
+        </ons-card>
+    </ons-page>
+    <script>
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("btnLogin").click();
+            }
+        });
+        document.getElementById("username").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("btnLogin").click();
+            }
+        });
+    </script>
+</body>
+</html>

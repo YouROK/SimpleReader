@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/favicon.png">
+    <meta name="description" content="Электронная библиотека">
+    <meta name="keywords" content="книги читать онлайн, книги, читать онлайн, бесплатно, без регистрации, мобильные, fb2, читать fb2" />
+    <title>Мои Книги</title>
+
+    <link rel="stylesheet" href="/css/onsenui.css">
+    <link rel="stylesheet" href="/css/onsen-css-components.min.css">
+    <script src="/js/onsenui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    {{template "metrica.gohtml" .}}
+</head>
+<body>
+
+{{template "background.gohtml"}}
+
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button onclick="location.href='/'">
+                <ons-icon icon="ion-ios-home, material:md-home"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+        <div class="center">
+            Мои Книги
+        </div>
+    </ons-toolbar>
+    <ons-card style="max-width: 900px;margin: 10px auto">
+        {{if eq (len .Books) 0}}
+            <p>Тут будут отображаться книги, которые Вы читаете</p>
+        {{else}}
+            {{range .Books}}
+                <ons-card>
+                    <img style="float:left; margin-right: 10px; border-radius: 5%;" src="/cover/{{.Hash}}" width="86" height="130" />
+                    <div class="content">
+                        <div class="title"><b>{{.BookTitle}}</b><br/>
+                            {{.Sequence.Name}} {{.Sequence.Number}}</div>
+                        <p>{{.Author.LastName}} {{.Author.MiddleName}} {{.Author.FirstName}}</p>
+                        <p><small><i>{{.GetGenresLine}}</i></small></p>
+                        <div style="clear:both;"></div>
+                        <p style="width: 100%; margin-top: 5px;">
+                            <ons-button style="float: left" onclick="location.href='/book/{{.Hash}}'">
+                                <ons-icon icon="ion-ios-book"></ons-icon>
+                                Читать
+                            </ons-button>
+                            <ons-button style="float: right" onclick="removeBook({{.Hash}})">
+                                <ons-icon icon="ion-ios-trash"></ons-icon>
+                                Удалить
+                            </ons-button>
+                        </p>
+                        <div style="clear:both;"></div>
+                    </div>
+                </ons-card>
+            {{end}}
+        {{end}}
+    </ons-card>
+</ons-page>
+<script>
+    function removeBook(hash) {
+        var request = $.ajax({
+            type: 'POST',
+            url: '/rembook',
+            data: hash,
+            contentType: "text/plain; charset=UTF-8",
+            dataType: "text"
+        });
+        request.done(function (data) {
+            location.reload();
+        });
+        request.always(function (){
+
+        });
+    }
+</script>
+</body>
+</html>
